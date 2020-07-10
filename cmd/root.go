@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"HTTP_monitoring/cmd/migrate"
+	"HTTP_monitoring/cmd/server"
 	"HTTP_monitoring/config"
 	"fmt"
 	"os"
@@ -23,7 +24,7 @@ func Execute() {
 	cfg := config.Read()
 
 	migrate.Register(rootCmd, cfg)
-	//server.Register(rootCmd, cfg)
+	server.Register(rootCmd, cfg)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)

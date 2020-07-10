@@ -1,6 +1,7 @@
 package store
 
 import (
+	"HTTP_monitoring/model"
 	"database/sql"
 	"log"
 )
@@ -16,14 +17,21 @@ func NewURL(d *sql.DB) SQLURL {
 
 // Creates a table in the database that matches the URL table and puts a trigger on it which deletes the
 // rows that have expired after each insert
-func (m SQLURL) Create() {
-	_, err := m.DB.Exec("CREATE TABLE IF NOT EXISTS url (" +
+func (u SQLURL) Create() {
+	_, err := u.DB.Exec("CREATE TABLE IF NOT EXISTS url (" +
 		"id serial PRIMARY KEY," +
-		"user INTEGER," +
+		"u INTEGER," +
 		"url VARCHAR NOT NULL," +
-		"FOREIGN KEY (user) REFERENCES user (id)" +
+		"FOREIGN KEY (u) REFERENCES users (id)" +
 		");")
 	if err != nil {
-		log.Println("Cannot create map table due to the following error", err.Error())
+		log.Println("Cannot create url table due to the following error", err.Error())
 	}
+}
+
+func (u SQLURL) Insert(url model.URL) error {
+	_, err := u.DB.Exec("INSERT INTO url (u, url) VALUES (Select id from users WHERE email = $1, $2)",
+		url.User.Email, url.Url)
+
+	return err
 }

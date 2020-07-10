@@ -10,7 +10,7 @@ import (
 
 func Register(root *cobra.Command, cfg config.Config) {
 	c := cobra.Command{
-		Use:   "setupdb",
+		Use:   "migrate",
 		Short: "Manages database, creates and fills tables if don't exist",
 		Run: func(cmd *cobra.Command, args []string) {
 			d := db.New(cfg.Database)

@@ -45,6 +45,6 @@ func (m SQLStatus) Create() {
 		"execute procedure delete_expired_row();")
 
 	if err != nil {
-		log.Println("Cannot create put trigger on map table due to the following error", err.Error())
+		log.Println("Cannot create put trigger on status table due to the following error", err.Error())
 	}
 }
