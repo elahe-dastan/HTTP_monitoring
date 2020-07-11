@@ -41,24 +41,24 @@ func (u SQLUser) Insert(user model.User) error {
 	return err
 }
 
-func (u SQLUser) Retrieve(user model.User) error {
+func (u SQLUser) Retrieve(user model.User) (model.User, error) {
 	var us model.User
 
 	err := u.DB.QueryRow("SELECT * from users WHERE email = $1;", user.Email).Scan(
-		&us.Email, us.Password)
+		&us.ID, &us.Email, &us.Password)
 	if err != nil {
 		log.Println(err)
 	}
 
 	if us.Email == "" {
 		err = ErrNotFound
-		return err
+		return us, err
 	}
 
 	if us.Password != user.Password {
 		err = ErrWrongPass
-		return err
+		return us, err
 	}
 
-	return err
+	return us, err
 }

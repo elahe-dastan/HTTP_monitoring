@@ -30,8 +30,8 @@ func (u SQLURL) Create() {
 }
 
 func (u SQLURL) Insert(url model.URL) error {
-	_, err := u.DB.Exec("INSERT INTO url (u, url) VALUES (Select id from users WHERE email = $1, $2)",
-		url.User.Email, url.Url)
+	_, err := u.DB.Exec("INSERT INTO url (u, url) VALUES ($1, $2)",
+		url.UserId, url.Url)
 
 	return err
 }
