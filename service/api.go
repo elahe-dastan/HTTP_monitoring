@@ -18,6 +18,7 @@ func (a API) Run() {
 
 	//Users register
 	e.POST("/register", a.Register)
+	e.POST("/login", a.Login)
 	e.POST("/url", a.Add)
 	e.Logger.Fatal(e.Start(":8080"))
 }
@@ -36,6 +37,28 @@ func (a API) Register(c echo.Context) error {
 	if err := a.User.Insert(user); err != nil {
 		return err
 	}
+
+	return c.JSON(http.StatusCreated, user)
+}
+
+func (a API) Login(c echo.Context) error {
+	var user model.User
+
+	if err := c.Bind(&user); err != nil {
+		return err
+	}
+
+	if user.Email == "" || user.Password == ""{
+		return echo.NewHTTPError(http.StatusBadRequest, "Email and password cannot be empty")
+	}
+
+	if err := a.User.Retrieve(user); err != nil {
+		return err
+	}
+
+
+
+	//create token
 
 	return c.JSON(http.StatusCreated, user)
 }

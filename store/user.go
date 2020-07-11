@@ -3,8 +3,13 @@ package store
 import (
 	"HTTP_monitoring/model"
 	"database/sql"
+	"errors"
 	"log"
 )
+
+
+var ErrNotFound = errors.New("this user doesn't exist in the database")
+var ErrWrongPass = errors.New("password is not correct")
 
 type SQLUser struct {
 	DB      *sql.DB
@@ -32,6 +37,28 @@ func (u SQLUser) Create() {
 func (u SQLUser) Insert(user model.User) error {
 	_, err := u.DB.Exec("INSERT INTO users (email, pass) VALUES ($1, $2)",
 		user.Email, user.Password)
+
+	return err
+}
+
+func (u SQLUser) Retrieve(user model.User) error {
+	var us model.User
+
+	err := u.DB.QueryRow("SELECT * from users WHERE email = $1;", user.Email).Scan(
+		&us.Email, us.Password)
+	if err != nil {
+		log.Println(err)
+	}
+
+	if us.Email == "" {
+		err = ErrNotFound
+		return err
+	}
+
+	if us.Password != user.Password {
+		err = ErrWrongPass
+		return err
+	}
 
 	return err
 }
