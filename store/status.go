@@ -1,7 +1,9 @@
 package store
 
 import (
+	"HTTP_monitoring/model"
 	"database/sql"
+	"fmt"
 	"log"
 )
 
@@ -47,4 +49,13 @@ func (m SQLStatus) Create() {
 	if err != nil {
 		log.Println("Cannot create put trigger on status table due to the following error", err.Error())
 	}
+}
+
+func (m SQLStatus) Insert(status model.Status) error {
+	fmt.Println(status.Clock)
+	_, err := m.DB.Exec("INSERT INTO status (url, clock, status) VALUES ($1, NOW(), $2)",
+		status.Url, status.StatusCode)
+
+	return err
+
 }

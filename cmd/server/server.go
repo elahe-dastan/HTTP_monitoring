@@ -18,7 +18,13 @@ func Register(root *cobra.Command, cfg config.Config) {
 				d := db.New(cfg.Database)
 				api := service.API{
 					User: store.NewUser(d),
+					URl: store.NewURL(d),
 				}
+				s := service.Server{
+					URl:    store.NewURL(d),
+					Status: store.NewStatus(d),
+				}
+				go s.Run()
 				api.Run()
 			},
 		},

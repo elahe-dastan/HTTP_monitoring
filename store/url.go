@@ -3,6 +3,7 @@ package store
 import (
 	"HTTP_monitoring/model"
 	"database/sql"
+	"fmt"
 	"log"
 )
 
@@ -34,4 +35,13 @@ func (u SQLURL) Insert(url model.URL) error {
 		url.UserId, url.Url)
 
 	return err
+}
+
+func (u SQLURL) GetTable() *sql.Rows {
+	rows, err := u.DB.Query("SELECT * FROM url")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return rows
 }
