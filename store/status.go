@@ -7,18 +7,16 @@ import (
 	"log"
 )
 
-
 type SQLStatus struct {
-	DB      *sql.DB
+	DB *sql.DB
 }
 
 func NewStatus(d *sql.DB) SQLStatus {
-	return SQLStatus{DB: d,
-	}
+	return SQLStatus{DB: d}
 }
 
 // Creates a table in the database that matches the status table and puts a trigger on it which deletes the
-// rows that have expired after each insert
+// rows that have expired after each insert.
 func (m SQLStatus) Create() {
 	_, err := m.DB.Exec("CREATE TABLE IF NOT EXISTS status (" +
 		"id serial PRIMARY KEY," +

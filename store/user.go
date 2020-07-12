@@ -20,7 +20,7 @@ func NewUser(d *sql.DB) SQLUser {
 	}
 }
 
-// Creates a table in the database that matches the User table
+// Creates a table in the database that matches the User table.
 func (u SQLUser) Create() {
 	_, err := u.DB.Exec("CREATE TABLE IF NOT EXISTS users (" +
 		"id serial PRIMARY KEY," +

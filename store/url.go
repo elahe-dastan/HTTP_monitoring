@@ -16,7 +16,7 @@ func NewURL(d *sql.DB) SQLURL {
 	}
 }
 
-// Creates a table in the database that matches the URL table
+// Creates a table in the database that matches the URL table.
 func (u SQLURL) Create() {
 	_, err := u.DB.Exec("CREATE TABLE IF NOT EXISTS url (" +
 		"id serial PRIMARY KEY," +
@@ -31,7 +31,7 @@ func (u SQLURL) Create() {
 
 func (u SQLURL) Insert(url model.URL) error {
 	_, err := u.DB.Exec("INSERT INTO url (u, url) VALUES ($1, $2)",
-		url.UserId, url.Url)
+		url.UserId, url.URL)
 
 	return err
 }
