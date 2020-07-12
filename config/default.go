@@ -8,4 +8,6 @@ db:
   dbname: monitor
   password: postgres
   sslmode: disable
+jwt:
+  secret: jdnfksdmfks
 `

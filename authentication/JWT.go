@@ -1,20 +1,20 @@
 package authentication
 
 import (
-	"HTTP_monitoring/model"
+	"HTTP_monitoring/config"
 	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
 
-func CreateToken(user model.User) (string, error) {
+func CreateToken(id int, cfg config.JWT) (string, error) {
 	var err error
 	//Creating Access Token
-	os.Setenv("ACCESS_SECRET", "jdnfksdmfks") //this should be in an env file
+	os.Setenv("ACCESS_SECRET", cfg.SECRET) //this should be in an env file
 	atClaims := jwt.MapClaims{}
 	atClaims["authorized"] = true
-	atClaims["user_id"] = user.ID
+	atClaims["user_id"] = id
 	atClaims["exp"] = time.Now().Add(time.Minute * 15).Unix()
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
 	token, err := at.SignedString([]byte(os.Getenv("ACCESS_SECRET")))

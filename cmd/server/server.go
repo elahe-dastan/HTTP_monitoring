@@ -1,6 +1,7 @@
 package server
 
 import (
+	"HTTP_monitoring/config"
 	"HTTP_monitoring/service"
 	"HTTP_monitoring/store"
 	"database/sql"
@@ -8,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func Register(root *cobra.Command, d *sql.DB) {
+func Register(root *cobra.Command, d *sql.DB, cfg config.JWT) {
 	root.AddCommand(
 		&cobra.Command{
 			Use:   "server",
@@ -18,6 +19,7 @@ func Register(root *cobra.Command, d *sql.DB) {
 				api := service.API{
 					User: store.NewUser(d),
 					URL:  URL,
+					Config:cfg,
 				}
 				s := service.Server{
 					URl:    URL,

@@ -26,7 +26,7 @@ func Execute() {
 	d := db.New(cfg.Database)
 
 	migrate.Register(rootCmd, d)
-	server.Register(rootCmd, d)
+	server.Register(rootCmd, d, cfg.JWT)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)

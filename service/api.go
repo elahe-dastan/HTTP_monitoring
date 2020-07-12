@@ -2,15 +2,13 @@ package service
 
 import (
 	"HTTP_monitoring/authentication"
+	"HTTP_monitoring/config"
 	"HTTP_monitoring/model"
 	"HTTP_monitoring/request"
 	"HTTP_monitoring/store"
 	"errors"
 	"net/http"
-	"os"
-	"time"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 )
 
@@ -19,6 +17,7 @@ var ErrLoggedOut = errors.New("you are not logged in")
 type API struct {
 	User store.SQLUser
 	URL  store.SQLURL
+	Config config.JWT
 }
 
 func (a API) Run() {
@@ -64,7 +63,7 @@ func (a API) Login(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, err.Error())
 	}
 
-	token, err := authentication.CreateToken(us)
+	token, err := authentication.CreateToken(us.ID, a.Config)
 	if err != nil {
 		return err
 	}
