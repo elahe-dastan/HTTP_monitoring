@@ -10,4 +10,5 @@ db:
   sslmode: disable
 jwt:
   secret: jdnfksdmfks
+  exp: 15
 `

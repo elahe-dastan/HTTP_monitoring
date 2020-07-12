@@ -41,7 +41,7 @@ func (a API) Register(c echo.Context) error {
 	}
 
 	if err := a.User.Insert(user); err != nil {
-		return err
+		c.JSON(http.StatusConflict, err.Error())
 	}
 
 	return c.JSON(http.StatusCreated, user)
@@ -78,19 +78,19 @@ func (a API) Add(c echo.Context) error {
 		return err
 	}
 
-	in, id := authentication.ValidateToken(newUrl.Token)
+	in, id := authentication.ValidateToken(newUrl.Token, a.Config)
 
 	if !in {
-		return c.JSON(http.StatusForbidden, ErrLoggedOut)
+		return c.JSON(http.StatusForbidden, ErrLoggedOut.Error())
 	}
 
 	var url model.URL
 
 	url.UserId = id
-	url.Url = newUrl.Url
+	url.Url = newUrl.URL
 
 	if err := a.URL.Insert(url); err != nil {
-		return err
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	return c.JSON(http.StatusCreated, url)

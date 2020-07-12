@@ -15,7 +15,7 @@ func CreateToken(id int, cfg config.JWT) (string, error) {
 	atClaims := jwt.MapClaims{}
 	atClaims["authorized"] = true
 	atClaims["user_id"] = id
-	atClaims["exp"] = time.Now().Add(time.Minute * 15).Unix()
+	atClaims["exp"] = time.Now().Add(time.Minute * time.Duration(cfg.Expiration)).Unix()
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
 	token, err := at.SignedString([]byte(os.Getenv("ACCESS_SECRET")))
 	if err != nil {
@@ -24,10 +24,10 @@ func CreateToken(id int, cfg config.JWT) (string, error) {
 	return token, nil
 }
 
-func ValidateToken(token string) (in bool, i int) {
+func ValidateToken(token string, cfg config.JWT) (in bool, i int) {
 	claims := jwt.MapClaims{}
 	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte("jdnfksdmfks"), nil
+		return []byte(cfg.SECRET), nil
 	})
 
 	if err != nil {

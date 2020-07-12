@@ -5,29 +5,41 @@ import (
 	"HTTP_monitoring/service"
 	"HTTP_monitoring/store"
 	"database/sql"
+	"log"
 
 	"github.com/spf13/cobra"
 )
 
 func Register(root *cobra.Command, d *sql.DB, cfg config.JWT) {
-	root.AddCommand(
-		&cobra.Command{
-			Use:   "server",
-			Short: "Run server to serve the requests",
-			Run: func(cmd *cobra.Command, args []string) {
-				URL := store.NewURL(d)
-				api := service.API{
-					User: store.NewUser(d),
-					URL:  URL,
-					Config:cfg,
-				}
-				s := service.Server{
-					URl:    URL,
-					Status: store.NewStatus(d),
-				}
-				go s.Run()
-				api.Run()
-			},
+	c := cobra.Command{
+		Use:   "server",
+		Short: "Run server to serve the requests",
+		Run: func(cmd *cobra.Command, args []string) {
+			URL := store.NewURL(d)
+			api := service.API{
+				User: store.NewUser(d),
+				URL:  URL,
+				Config:cfg,
+			}
+
+			du, err := cmd.Flags().GetInt("duration")
+			if err != nil {
+				log.Fatal(err)
+			}
+			s := service.Server{
+				URL:      URL,
+				Status:   store.NewStatus(d),
+				Duration: du,
+			}
+			go s.Run()
+			api.Run()
 		},
+	}
+
+	c.Flags().IntP("duration", "d", 1,
+		"every d minutes the status of the urls will be checked")
+
+	root.AddCommand(
+		&c,
 	)
 }

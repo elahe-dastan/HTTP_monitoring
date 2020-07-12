@@ -9,16 +9,17 @@ import (
 )
 
 type Server struct {
-	URl    store.SQLURL
-	Status store.SQLStatus
+	URL      store.SQLURL
+	Status   store.SQLStatus
+	Duration int
 }
 
 func (s *Server) Run() {
-	ticker := time.NewTicker(30 * time.Second)
+	ticker := time.NewTicker(time.Duration(s.Duration) * time.Second)
 
 	for {
 		<-ticker.C
-		rows := s.URl.GetTable()
+		rows := s.URL.GetTable()
 		for rows.Next() {
 			var url model.URL
 
