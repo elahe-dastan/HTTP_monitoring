@@ -72,7 +72,6 @@ func (a API) Login(c echo.Context) error {
 	return c.JSON(http.StatusOK, token)
 }
 
-//nolint: gofumpt
 func (a API) Add(c echo.Context) error {
 	var newURL request.URL
 

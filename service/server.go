@@ -42,7 +42,6 @@ func (s *Server) Run() {
 			status.Clock = time.Now()
 			status.StatusCode = resp.StatusCode
 
-
 			if err := s.Status.Insert(status); err != nil {
 				fmt.Println(err)
 			}

@@ -17,9 +17,9 @@ func Register(root *cobra.Command, d *sql.DB, cfg config.JWT) {
 		Run: func(cmd *cobra.Command, args []string) {
 			URL := store.NewURL(d)
 			api := service.API{
-				User: store.NewUser(d),
-				URL:  URL,
-				Config:cfg,
+				User:   store.NewUser(d),
+				URL:    URL,
+				Config: cfg,
 			}
 
 			du, err := cmd.Flags().GetInt("duration")
