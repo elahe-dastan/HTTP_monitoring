@@ -10,7 +10,7 @@ steps:
   - name: migration
     image: golang
     commands:
-      - go run main.go migration
+      - go run main.go migrate
 
 services:
   - name: database
