@@ -15,8 +15,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var token string
-
 func Register(t *testing.T) {
 	cfg := config.Read()
 	d := db.New(cfg.Database)
@@ -40,6 +38,7 @@ func Register(t *testing.T) {
 	e.ServeHTTP(rec, req)
 
 	resp := rec.Result()
+	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 
 	assert.Nil(t, err, "Cannot read body")
@@ -49,7 +48,7 @@ func Register(t *testing.T) {
 	fmt.Println(string(body))
 }
 
-func Login(t *testing.T) {
+func Login(t *testing.T) string {
 	cfg := config.Read()
 	d := db.New(cfg.Database)
 
@@ -80,10 +79,10 @@ func Login(t *testing.T) {
 
 	fmt.Println(string(body))
 
-	token = string(body)
+	return string(body)
 }
 
-func Add(t *testing.T) {
+func Add(t *testing.T, token string) {
 	cfg := config.Read()
 	d := db.New(cfg.Database)
 
@@ -117,7 +116,6 @@ func Add(t *testing.T) {
 
 func TestAPI(t *testing.T) {
 	Register(t)
-	Login(t)
-	Add(t)
+	token := Login(t)
+	Add(t, token)
 }
-
