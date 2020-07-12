@@ -126,7 +126,6 @@ func TestAPI(t *testing.T) {
 	Add(t, token)
 }
 
-//nolint: gofumpt
 func checkClose(resp *http.Response) {
 	err := resp.Body.Close()
 	if err != nil {
