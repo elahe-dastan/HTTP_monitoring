@@ -13,14 +13,17 @@ func CreateToken(id int, cfg config.JWT) (string, error) {
 	//Creating Access Token
 	os.Setenv("ACCESS_SECRET", cfg.SECRET) //this should be in an env file
 	atClaims := jwt.MapClaims{}
+
 	atClaims["authorized"] = true
 	atClaims["user_id"] = id
 	atClaims["exp"] = time.Now().Add(time.Minute * time.Duration(cfg.Expiration)).Unix()
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
 	token, err := at.SignedString([]byte(os.Getenv("ACCESS_SECRET")))
+
 	if err != nil {
 		return "", err
 	}
+
 	return token, nil
 }
 

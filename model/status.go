@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Status struct {
-	Url        int
+	URL        int
 	Clock      time.Time
 	StatusCode int
 }

@@ -8,12 +8,11 @@ import (
 )
 
 type SQLURL struct {
-	DB      *sql.DB
+	DB *sql.DB
 }
 
 func NewURL(d *sql.DB) SQLURL {
-	return SQLURL{DB: d,
-	}
+	return SQLURL{DB: d}
 }
 
 // Creates a table in the database that matches the URL table.
@@ -31,7 +30,7 @@ func (u SQLURL) Create() {
 
 func (u SQLURL) Insert(url model.URL) error {
 	_, err := u.DB.Exec("INSERT INTO url (u, url) VALUES ($1, $2)",
-		url.UserId, url.URL)
+		url.UserID, url.URL)
 
 	return err
 }

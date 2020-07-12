@@ -72,13 +72,13 @@ func (a API) Login(c echo.Context) error {
 }
 
 func (a API) Add(c echo.Context) error {
-	var newUrl request.URL
+	var newURL request.URL
 
-	if err := c.Bind(&newUrl); err != nil {
+	if err := c.Bind(&newURL); err != nil {
 		return err
 	}
 
-	in, id := authentication.ValidateToken(newUrl.Token, a.Config)
+	in, id := authentication.ValidateToken(newURL.Token, a.Config)
 
 	if !in {
 		return c.JSON(http.StatusForbidden, ErrLoggedOut.Error())
@@ -86,8 +86,8 @@ func (a API) Add(c echo.Context) error {
 
 	var url model.URL
 
-	url.UserId = id
-	url.URL = newUrl.URL
+	url.UserID = id
+	url.URL = newURL.URL
 
 	if err := a.URL.Insert(url); err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())

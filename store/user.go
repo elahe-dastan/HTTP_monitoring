@@ -7,17 +7,15 @@ import (
 	"log"
 )
 
-
 var ErrNotFound = errors.New("this user doesn't exist in the database")
 var ErrWrongPass = errors.New("password is not correct")
 
 type SQLUser struct {
-	DB      *sql.DB
+	DB *sql.DB
 }
 
 func NewUser(d *sql.DB) SQLUser {
-	return SQLUser{DB: d,
-	}
+	return SQLUser{DB: d}
 }
 
 // Creates a table in the database that matches the User table.

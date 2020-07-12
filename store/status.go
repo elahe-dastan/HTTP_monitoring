@@ -52,8 +52,7 @@ func (m SQLStatus) Create() {
 func (m SQLStatus) Insert(status model.Status) error {
 	fmt.Println(status.Clock)
 	_, err := m.DB.Exec("INSERT INTO status (url, clock, status) VALUES ($1, NOW(), $2)",
-		status.Url, status.StatusCode)
+		status.URL, status.StatusCode)
 
 	return err
-
 }

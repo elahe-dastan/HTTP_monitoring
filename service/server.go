@@ -19,11 +19,14 @@ func (s *Server) Run() {
 
 	for {
 		<-ticker.C
+
 		rows := s.URL.GetTable()
+
+		//nolint: bodyclose
 		for rows.Next() {
 			var url model.URL
 
-			if err := rows.Scan(&url.ID, &url.UserId, &url.URL); err != nil {
+			if err := rows.Scan(&url.ID, &url.UserID, &url.URL); err != nil {
 				fmt.Println(err)
 			}
 
@@ -33,7 +36,7 @@ func (s *Server) Run() {
 			}
 
 			var status model.Status
-			status.Url = url.ID
+			status.URL = url.ID
 			status.Clock = time.Now()
 			status.StatusCode = resp.StatusCode
 
@@ -41,7 +44,6 @@ func (s *Server) Run() {
 			if err := s.Status.Insert(status); err != nil {
 				fmt.Println(err)
 			}
-
 		}
 	}
 }
