@@ -30,6 +30,7 @@ func CreateToken(id int, cfg config.JWT) (string, error) {
 	return token, nil
 }
 
+//nolint: gofumpt
 func ValidateToken(token string, cfg config.JWT) (in bool, i int) {
 	claims := jwt.MapClaims{}
 	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
@@ -44,7 +45,7 @@ func ValidateToken(token string, cfg config.JWT) (in bool, i int) {
 	exp := claims["exp"].(float64)
 	id := claims["user_id"].(float64)
 
-	if auth && exp > float64(time.Now().Unix()){
+	if auth && exp > float64(time.Now().Unix()) {
 		return true, int(id)
 	}
 

@@ -15,8 +15,8 @@ import (
 var ErrLoggedOut = errors.New("you are not logged in")
 
 type API struct {
-	User store.SQLUser
-	URL  store.SQLURL
+	User   store.SQLUser
+	URL    store.SQLURL
 	Config config.JWT
 }
 
@@ -36,7 +36,7 @@ func (a API) Register(c echo.Context) error {
 		return err
 	}
 
-	if user.Email == "" || user.Password == ""{
+	if user.Email == "" || user.Password == "" {
 		return echo.NewHTTPError(http.StatusBadRequest, "Email and password cannot be empty")
 	}
 
@@ -55,7 +55,7 @@ func (a API) Login(c echo.Context) error {
 		return err
 	}
 
-	if user.Email == "" || user.Password == ""{
+	if user.Email == "" || user.Password == "" {
 		return echo.NewHTTPError(http.StatusBadRequest, "Email and password cannot be empty")
 	}
 
@@ -72,6 +72,7 @@ func (a API) Login(c echo.Context) error {
 	return c.JSON(http.StatusOK, token)
 }
 
+//nolint: gofumpt
 func (a API) Add(c echo.Context) error {
 	var newURL request.URL
 

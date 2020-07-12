@@ -38,7 +38,6 @@ func (u SQLUser) Insert(user model.User) error {
 	return err
 }
 
-
 //nolint: gofumpt
 func (u SQLUser) Retrieve(user model.User) (model.User, error) {
 	var us model.User

@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-//nolint: gofumpt
 func Register(root *cobra.Command, d *sql.DB) {
 	c := cobra.Command{
 		Use:   "migrate",

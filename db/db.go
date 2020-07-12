@@ -10,6 +10,7 @@ import (
 
 const DB = "postgres"
 
+//nolint: gofumpt
 func New(config config.Database) *sql.DB {
 	db, err := sql.Open(DB, config.Cstring())
 	if err != nil {
