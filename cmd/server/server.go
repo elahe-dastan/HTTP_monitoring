@@ -1,27 +1,26 @@
 package server
 
 import (
-	"HTTP_monitoring/config"
-	"HTTP_monitoring/db"
 	"HTTP_monitoring/service"
 	"HTTP_monitoring/store"
+	"database/sql"
 
 	"github.com/spf13/cobra"
 )
 
-func Register(root *cobra.Command, cfg config.Config) {
+func Register(root *cobra.Command, d *sql.DB) {
 	root.AddCommand(
 		&cobra.Command{
 			Use:   "server",
 			Short: "Run server to serve the requests",
 			Run: func(cmd *cobra.Command, args []string) {
-				d := db.New(cfg.Database)
+				URL := store.NewURL(d)
 				api := service.API{
 					User: store.NewUser(d),
-					URl: store.NewURL(d),
+					URL:  URL,
 				}
 				s := service.Server{
-					URl:    store.NewURL(d),
+					URl:    URL,
 					Status: store.NewStatus(d),
 				}
 				go s.Run()

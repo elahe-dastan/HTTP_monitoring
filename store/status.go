@@ -28,7 +28,7 @@ func (m SQLStatus) Create() {
 		"FOREIGN KEY (url) REFERENCES url (id)" +
 		");")
 	if err != nil {
-		log.Println("Cannot create map table due to the following error", err.Error())
+		log.Println("Cannot create status table due to the following error", err.Error())
 	}
 
 	_, err = m.DB.Exec("create or replace function delete_expired_row() " +

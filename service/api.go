@@ -1,6 +1,7 @@
 package service
 
 import (
+	"HTTP_monitoring/authentication"
 	"HTTP_monitoring/model"
 	"HTTP_monitoring/request"
 	"HTTP_monitoring/store"
@@ -16,14 +17,13 @@ import (
 var ErrLoggedOut = errors.New("you are not logged in")
 
 type API struct {
-	User   store.SQLUser
-	URl    store.SQLURL
+	User store.SQLUser
+	URL  store.SQLURL
 }
 
 func (a API) Run() {
 	e := echo.New()
 
-	//Users register
 	e.POST("/register", a.Register)
 	e.POST("/login", a.Login)
 	e.POST("/url", a.Add)
@@ -61,10 +61,10 @@ func (a API) Login(c echo.Context) error {
 
 	us, err := a.User.Retrieve(user)
 	if err != nil {
-		return err
+		return c.JSON(http.StatusNotFound, err.Error())
 	}
 
-	token, err := CreateToken(us)
+	token, err := authentication.CreateToken(us)
 	if err != nil {
 		return err
 	}
@@ -79,7 +79,7 @@ func (a API) Add(c echo.Context) error {
 		return err
 	}
 
-	in, id := ValidateToken(newUrl.Token)
+	in, id := authentication.ValidateToken(newUrl.Token)
 
 	if !in {
 		return c.JSON(http.StatusForbidden, ErrLoggedOut)
@@ -90,46 +90,9 @@ func (a API) Add(c echo.Context) error {
 	url.UserId = id
 	url.Url = newUrl.Url
 
-	if err := a.URl.Insert(url); err != nil {
+	if err := a.URL.Insert(url); err != nil {
 		return err
 	}
 
 	return c.JSON(http.StatusCreated, url)
-}
-
-func CreateToken(user model.User) (string, error) {
-	var err error
-	//Creating Access Token
-	os.Setenv("ACCESS_SECRET", "jdnfksdmfks") //this should be in an env file
-	atClaims := jwt.MapClaims{}
-	atClaims["authorized"] = true
-	atClaims["user_id"] = user.ID
-	atClaims["exp"] = time.Now().Add(time.Minute * 15).Unix()
-	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
-	token, err := at.SignedString([]byte(os.Getenv("ACCESS_SECRET")))
-	if err != nil {
-		return "", err
-	}
-	return token, nil
-}
-
-func ValidateToken(token string) (in bool, i int) {
-	claims := jwt.MapClaims{}
-	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte("jdnfksdmfks"), nil
-	})
-
-	if err != nil {
-		return false, 0
-	}
-
-	auth := claims["authorized"].(bool)
-	exp := claims["exp"].(float64)
-	id := claims["user_id"].(float64)
-
-	if auth && exp > float64(time.Now().Unix()){
-		return true, int(id)
-	}
-
-	return false, int(id)
 }

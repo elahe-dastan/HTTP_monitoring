@@ -16,8 +16,7 @@ func NewURL(d *sql.DB) SQLURL {
 	}
 }
 
-// Creates a table in the database that matches the URL table and puts a trigger on it which deletes the
-// rows that have expired after each insert
+// Creates a table in the database that matches the URL table
 func (u SQLURL) Create() {
 	_, err := u.DB.Exec("CREATE TABLE IF NOT EXISTS url (" +
 		"id serial PRIMARY KEY," +

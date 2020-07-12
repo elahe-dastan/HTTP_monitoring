@@ -20,8 +20,7 @@ func NewUser(d *sql.DB) SQLUser {
 	}
 }
 
-// Creates a table in the database that matches the User table and puts a trigger on it which deletes the
-// rows that have expired after each insert
+// Creates a table in the database that matches the User table
 func (u SQLUser) Create() {
 	_, err := u.DB.Exec("CREATE TABLE IF NOT EXISTS users (" +
 		"id serial PRIMARY KEY," +
@@ -30,7 +29,7 @@ func (u SQLUser) Create() {
 		"CONSTRAINT email_unique UNIQUE (email)" +
 		");")
 	if err != nil {
-		log.Println("Cannot create user table due to the following error", err.Error())
+		log.Println("Cannot create users table due to the following error", err.Error())
 	}
 }
 

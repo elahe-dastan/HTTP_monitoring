@@ -4,6 +4,7 @@ import (
 	"HTTP_monitoring/cmd/migrate"
 	"HTTP_monitoring/cmd/server"
 	"HTTP_monitoring/config"
+	"HTTP_monitoring/db"
 	"fmt"
 	"os"
 
@@ -15,16 +16,17 @@ import (
 func Execute() {
 	var rootCmd = &cobra.Command{
 		Use:   "monitor",
-		Short: "",
+		Short: "A project that checks the status of URLs",
 		Run:   func(cmd *cobra.Command, args []string) {},
 	}
 
 	exitFailure := 1
 
 	cfg := config.Read()
+	d := db.New(cfg.Database)
 
-	migrate.Register(rootCmd, cfg)
-	server.Register(rootCmd, cfg)
+	migrate.Register(rootCmd, d)
+	server.Register(rootCmd, d)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
