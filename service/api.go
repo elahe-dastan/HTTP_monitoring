@@ -85,22 +85,22 @@ func (a API) Add(c echo.Context) error {
 	in, id := authentication.ValidateToken(token[0], a.Config)
 
 	if !in {
-		return c.JSON(http.StatusForbidden, ErrLoggedOut.Error())
+		return echo.NewHTTPError(http.StatusForbidden, ErrLoggedOut.Error())
 	}
 
 	_, err := url.ParseRequestURI(newURL.URL)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	var url model.URL
+	var u model.URL
 
-	url.UserID = id
-	url.URL = newURL.URL
+	u.UserID = id
+	u.URL = newURL.URL
 
-	if err := a.URL.Insert(url); err != nil {
+	if err := a.URL.Insert(u); err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusCreated, url)
+	return c.JSON(http.StatusCreated, u)
 }
