@@ -11,12 +11,12 @@ import (
 
 type Config struct {
 	Database Database `mapstructure:"db"`
-	JWT  JWT `mapstructure:"jwt"`
+	JWT      JWT      `mapstructure:"jwt"`
 }
 
 type JWT struct {
-	SECRET string `mapstructure:"secret"`
-	Expiration int `mapstructure:"exp"`
+	SECRET     string `mapstructure:"secret"`
+	Expiration int    `mapstructure:"exp"`
 }
 
 type Database struct {
@@ -54,6 +54,7 @@ func Read() Config {
 	return cfg
 }
 
+//nolint: gofumpt
 func (d Database) Cstring() string {
 	return fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s  sslmode=%s",
 		d.Host, d.Port, d.User, d.DBName, d.Password, d.SSLmode)

@@ -40,6 +40,7 @@ func (a API) Register(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "Email and password cannot be empty")
 	}
 
+	//nolint: errcheck
 	if err := a.User.Insert(user); err != nil {
 		c.JSON(http.StatusConflict, err.Error())
 	}

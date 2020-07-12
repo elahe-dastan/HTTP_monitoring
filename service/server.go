@@ -17,6 +17,7 @@ type Server struct {
 func (s *Server) Run() {
 	ticker := time.NewTicker(time.Duration(s.Duration) * time.Second)
 
+	//nolint: sqlclosecheck
 	for {
 		<-ticker.C
 
@@ -30,6 +31,7 @@ func (s *Server) Run() {
 				fmt.Println(err)
 			}
 
+			//nolint: noctx
 			resp, err := http.Get(url.URL)
 			if err != nil {
 				fmt.Println(err)
