@@ -72,6 +72,7 @@ func Login(t *testing.T) string {
 	rec := httptest.NewRecorder()
 	e.ServeHTTP(rec, req)
 
+	//nolint: bodyclose
 	resp := rec.Result()
 	defer checkClose(resp)
 	body, err := ioutil.ReadAll(resp.Body)
@@ -81,8 +82,6 @@ func Login(t *testing.T) string {
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 
 	fmt.Println(string(body))
-
-
 
 	return string(body)
 }
@@ -109,6 +108,7 @@ func Add(t *testing.T, token string) {
 	rec := httptest.NewRecorder()
 	e.ServeHTTP(rec, req)
 
+	//nolint: bodyclose
 	resp := rec.Result()
 	defer checkClose(resp)
 	body, err := ioutil.ReadAll(resp.Body)
@@ -126,7 +126,8 @@ func TestAPI(t *testing.T) {
 	Add(t, token)
 }
 
-func checkClose(resp *http.Response){
+//nolint: gofumpt
+func checkClose(resp *http.Response) {
 	err := resp.Body.Close()
 	if err != nil {
 		log.Fatal(err)
