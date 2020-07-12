@@ -7,3 +7,15 @@ steps:
     image: golangci/golangci-lint
     commands:
       - golangci-lint run --enable-all
+  - name: migration
+    image: golang
+    commands:
+      - go run main.go migration
+
+services:
+  - name: database
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: monitor
