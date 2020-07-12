@@ -15,7 +15,7 @@ type Server struct {
 }
 
 func (s *Server) Run() {
-	ticker := time.NewTicker(time.Duration(s.Duration) * time.Second)
+	ticker := time.NewTicker(time.Duration(s.Duration) * time.Minute)
 
 	//nolint: sqlclosecheck
 	for {

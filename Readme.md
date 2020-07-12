@@ -23,6 +23,6 @@ $ curl -X POST -d '{"Email": "elahe.dstn@gmail.com", "Password": "XXXX"}'
 this should return a token
 
 ```sh
-$ curl -X POST -d '{"Token": "token", "URL": "https://www.google.com"}' 
--H 'Content-Type: application/json' 127.0.0.1:8080/url
+$ curl -X POST -d '{"URL": "https://www.google.com"}' 
+-H 'Content-Type: application/json' -H 'Token: token' 127.0.0.1:8080/url
 ```
