@@ -24,5 +24,5 @@ this should return a token
 
 ```sh
 $ curl -X POST -d '{"URL": "https://www.google.com"}' 
--H 'Content-Type: application/json' -H 'Token: token' 127.0.0.1:8080/url
+-H 'Content-Type: application/json' -H 'Authorization: token' 127.0.0.1:8080/url
 ```

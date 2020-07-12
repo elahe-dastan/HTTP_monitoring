@@ -8,6 +8,7 @@ import (
 	"HTTP_monitoring/store"
 	"errors"
 	"net/http"
+	"net/url"
 
 	"github.com/labstack/echo/v4"
 )
@@ -75,7 +76,7 @@ func (a API) Login(c echo.Context) error {
 func (a API) Add(c echo.Context) error {
 	var newURL request.URL
 
-	token := c.Request().Header["Token"]
+	token := c.Request().Header["Authorization"]
 
 	if err := c.Bind(&newURL); err != nil {
 		return err
@@ -85,6 +86,11 @@ func (a API) Add(c echo.Context) error {
 
 	if !in {
 		return c.JSON(http.StatusForbidden, ErrLoggedOut.Error())
+	}
+
+	_, err := url.ParseRequestURI(newURL.URL)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	var url model.URL
