@@ -23,17 +23,17 @@ func (s *Server) Run() {
 		for rows.Next() {
 			var url model.URL
 
-			if err := rows.Scan(&url.Id, &url.UserId, &url.Url); err != nil {
+			if err := rows.Scan(&url.ID, &url.UserId, &url.URL); err != nil {
 				fmt.Println(err)
 			}
 
-			resp, err := http.Get(url.Url)
+			resp, err := http.Get(url.URL)
 			if err != nil {
 				fmt.Println(err)
 			}
 
 			var status model.Status
-			status.Url = url.Id
+			status.Url = url.ID
 			status.Clock = time.Now()
 			status.StatusCode = resp.StatusCode
 

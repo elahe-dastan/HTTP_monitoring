@@ -1,7 +1,7 @@
 package model
 
 type URL struct {
-	Id     int
+	ID     int
 	UserId int
-	Url  string
+	URL    string
 }

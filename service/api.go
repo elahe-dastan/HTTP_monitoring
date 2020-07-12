@@ -87,7 +87,7 @@ func (a API) Add(c echo.Context) error {
 	var url model.URL
 
 	url.UserId = id
-	url.Url = newUrl.URL
+	url.URL = newUrl.URL
 
 	if err := a.URL.Insert(url); err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())

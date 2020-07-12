@@ -4,4 +4,3 @@ type URL struct {
 	Token string
 	URL   string
 }
-
