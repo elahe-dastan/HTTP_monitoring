@@ -1,3 +1,4 @@
+//nolint: testpackage
 package service
 
 import (
@@ -6,6 +7,7 @@ import (
 	"HTTP_monitoring/store"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -71,6 +73,7 @@ func Login(t *testing.T) string {
 	e.ServeHTTP(rec, req)
 
 	resp := rec.Result()
+	defer checkClose(resp)
 	body, err := ioutil.ReadAll(resp.Body)
 
 	assert.Nil(t, err, "Cannot read body")
@@ -78,6 +81,8 @@ func Login(t *testing.T) string {
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 
 	fmt.Println(string(body))
+
+
 
 	return string(body)
 }
@@ -105,6 +110,7 @@ func Add(t *testing.T, token string) {
 	e.ServeHTTP(rec, req)
 
 	resp := rec.Result()
+	defer checkClose(resp)
 	body, err := ioutil.ReadAll(resp.Body)
 
 	assert.Nil(t, err, "Cannot read body")
@@ -118,4 +124,11 @@ func TestAPI(t *testing.T) {
 	Register(t)
 	token := Login(t)
 	Add(t, token)
+}
+
+func checkClose(resp *http.Response){
+	err := resp.Body.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
