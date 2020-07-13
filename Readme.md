@@ -26,3 +26,7 @@ this should return a token
 $ curl -X POST -d '{"URL": "https://www.google.com"}' 
 -H 'Content-Type: application/json' -H 'Authorization: token' 127.0.0.1:8080/url
 ```
+
+## Handling URL Gets
+A period of time is defined for each url to be checked.A goroutine is running and every minute it checks if each URL<br/>
+should be gotten or not.The maximum Period is 100 minutes.

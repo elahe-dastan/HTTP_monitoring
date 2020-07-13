@@ -21,6 +21,7 @@ func (u SQLURL) Create() {
 		"id serial PRIMARY KEY," +
 		"u INTEGER," +
 		"url VARCHAR NOT NULL," +
+		"period INTEGER," +
 		"FOREIGN KEY (u) REFERENCES users (id)" +
 		");")
 	if err != nil {
@@ -29,8 +30,8 @@ func (u SQLURL) Create() {
 }
 
 func (u SQLURL) Insert(url model.URL) error {
-	_, err := u.DB.Exec("INSERT INTO url (u, url) VALUES ($1, $2)",
-		url.UserID, url.URL)
+	_, err := u.DB.Exec("INSERT INTO url (u, url, period) VALUES ($1, $2, $3)",
+		url.UserID, url.URL, url.Period)
 
 	return err
 }

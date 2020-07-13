@@ -16,10 +16,16 @@ type Server struct {
 
 func (s *Server) Run() {
 	ticker := time.NewTicker(time.Duration(s.Duration) * time.Minute)
+	counter := 0
 
 	//nolint: sqlclosecheck
 	for {
 		<-ticker.C
+
+		counter++
+		if counter == 100 {
+			counter = 1
+		}
 
 		rows := s.URL.GetTable()
 
@@ -27,8 +33,12 @@ func (s *Server) Run() {
 		for rows.Next() {
 			var url model.URL
 
-			if err := rows.Scan(&url.ID, &url.UserID, &url.URL); err != nil {
+			if err := rows.Scan(&url.ID, &url.UserID, &url.URL, &url.Period); err != nil {
 				fmt.Println(err)
+			}
+
+			if counter % url.Period != 0 {
+				continue
 			}
 
 			//nolint: noctx
