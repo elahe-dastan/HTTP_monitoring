@@ -23,7 +23,7 @@ func (s *Server) Run() {
 		<-ticker.C
 
 		counter++
-		if counter == 100 {
+		if counter == 101 {
 			counter = 1
 		}
 

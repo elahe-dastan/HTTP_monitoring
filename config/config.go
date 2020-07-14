@@ -11,6 +11,7 @@ import (
 
 type Config struct {
 	Database Database `mapstructure:"db"`
+	Redis    Redis    `mapstructure:"redis"`
 	JWT      JWT      `mapstructure:"jwt"`
 }
 
@@ -26,6 +27,11 @@ type Database struct {
 	DBName   string `mapstructure:"dbname"`
 	Password string `mapstructure:"password"`
 	SSLmode  string `mapstructure:"sslmode"`
+}
+
+type Redis struct {
+	Host     string `mapstructure:"host"`
+	Port     string `mapstructure:"port"`
 }
 
 func Read() Config {
