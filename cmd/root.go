@@ -5,6 +5,8 @@ import (
 	"HTTP_monitoring/cmd/server"
 	"HTTP_monitoring/config"
 	"HTTP_monitoring/db"
+	"HTTP_monitoring/memory"
+	"HTTP_monitoring/redis"
 	"fmt"
 	"os"
 
@@ -25,9 +27,10 @@ func Execute() {
 
 	cfg := config.Read()
 	d := db.New(cfg.Database)
+	r := memory.New(cfg.Redis)
 
 	migrate.Register(rootCmd, d)
-	server.Register(rootCmd, d, cfg.JWT)
+	server.Register(rootCmd, d, cfg.JWT, r)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)

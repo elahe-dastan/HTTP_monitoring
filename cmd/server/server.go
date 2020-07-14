@@ -2,15 +2,17 @@ package server
 
 import (
 	"HTTP_monitoring/config"
+	"HTTP_monitoring/memory"
 	"HTTP_monitoring/service"
 	"HTTP_monitoring/store"
 	"database/sql"
 	"log"
 
+	"github.com/gomodule/redigo/redis"
 	"github.com/spf13/cobra"
 )
 
-func Register(root *cobra.Command, d *sql.DB, cfg config.JWT) {
+func Register(root *cobra.Command, d *sql.DB, cfg config.JWT, r redis.Conn) {
 	c := cobra.Command{
 		Use:   "server",
 		Short: "Run server to serve the requests",
@@ -30,6 +32,7 @@ func Register(root *cobra.Command, d *sql.DB, cfg config.JWT) {
 				URL:      URL,
 				Status:   store.NewStatus(d),
 				Duration: du,
+				Redis:     memory.NewStatus(r),
 			}
 			go s.Run()
 			api.Run()

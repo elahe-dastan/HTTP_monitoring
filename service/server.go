@@ -1,6 +1,7 @@
 package service
 
 import (
+	"HTTP_monitoring/memory"
 	"HTTP_monitoring/model"
 	"HTTP_monitoring/store"
 	"fmt"
@@ -12,6 +13,7 @@ type Server struct {
 	URL      store.SQLURL
 	Status   store.SQLStatus
 	Duration int
+	Redis    memory.Status
 }
 
 func (s *Server) Run() {
@@ -52,6 +54,7 @@ func (s *Server) Run() {
 			status.Clock = time.Now()
 			status.StatusCode = resp.StatusCode
 
+			// Insert to redis
 			if err := s.Status.Insert(status); err != nil {
 				fmt.Println(err)
 			}
