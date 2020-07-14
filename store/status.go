@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/elahe-dastan/HTTP_monitoring/model"
 	"github.com/gomodule/redigo/redis"
@@ -57,8 +58,12 @@ func (m SQLStatus) Create() {
 }
 
 func (m SQLStatus) Insert(status model.Status) error {
-	_, err := m.DB.Exec("INSERT INTO status (url, clock, status) VALUES ($1, NOW(), $2)",
-		status.URL, status.StatusCode)
+	date, err := time.Parse(time.Stamp, status.Clock)
+	if err != nil {
+		return err
+	}
+	_, err = m.DB.Exec("INSERT INTO status (url, clock, status) VALUES ($1, $2, $3)",
+		status.URL, date, status.StatusCode)
 
 	return err
 }

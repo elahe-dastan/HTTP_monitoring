@@ -11,7 +11,7 @@ db:
 redis:
   host: 127.0.0.1
   port: "6379"
-  threshold: 6
+  threshold: 4
 jwt:
   secret: jdnfksdmfks
   exp: 15

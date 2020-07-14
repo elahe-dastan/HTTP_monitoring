@@ -26,14 +26,14 @@ func (s *Server) Run() {
 		<-ticker.C
 
 		counter++
-		if counter == 6 {
-			models := s.Redis.Flush()
-			for i := 0; i < len(models); i++ {
-				if err := s.Status.Insert(models[i]); err != nil {
+		if counter == s.Threshold {
+			statuses := s.Redis.Flush()
+			for i := 0; i < len(statuses); i++ {
+				if err := s.Status.Insert(statuses[i]); err != nil {
 					fmt.Println(err)
 				}
 			}
-			counter = 1
+			counter = 0
 		}
 
 		rows := s.URL.GetTable()
@@ -58,7 +58,7 @@ func (s *Server) Run() {
 
 			var status model.Status
 			status.URL = url.ID
-			status.Clock = time.Now().String()
+			status.Clock = time.Now().Format(time.Stamp)
 			status.StatusCode = resp.StatusCode
 
 			s.Redis.Insert(status)

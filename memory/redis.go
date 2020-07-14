@@ -1,8 +1,9 @@
 package memory
 
 import (
-	"HTTP_monitoring/config"
 	"log"
+
+	"github.com/elahe-dastan/HTTP_monitoring/config"
 
 	"github.com/gomodule/redigo/redis"
 )

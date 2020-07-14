@@ -1,9 +1,10 @@
 package authentication
 
 import (
-	"HTTP_monitoring/config"
 	"os"
 	"time"
+
+	"github.com/elahe-dastan/HTTP_monitoring/config"
 
 	"github.com/dgrijalva/jwt-go"
 )

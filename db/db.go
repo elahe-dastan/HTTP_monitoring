@@ -1,9 +1,10 @@
 package db
 
 import (
-	"HTTP_monitoring/config"
 	"database/sql"
 	"log"
+
+	"github.com/elahe-dastan/HTTP_monitoring/config"
 
 	_ "github.com/lib/pq" //adding dialect for postgres
 )
