@@ -57,7 +57,7 @@ func (s *Server) Run() {
 
 			var status model.Status
 			status.URL = url.ID
-			status.Clock = time.Now()
+			status.Clock = time.Now().String()
 			status.StatusCode = resp.StatusCode
 
 			s.Redis.Insert(status)
