@@ -1,19 +1,20 @@
 package service
 
 import (
-	"HTTP_monitoring/memory"
-	"HTTP_monitoring/model"
-	"HTTP_monitoring/store"
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/elahe-dastan/HTTP_monitoring/model"
+	"github.com/elahe-dastan/HTTP_monitoring/store"
 )
 
 type Server struct {
 	URL      store.SQLURL
 	Status   store.SQLStatus
 	Duration int
-	Redis    memory.Status
+	Redis    store.RedisStatus
+	Threshold int
 }
 
 func (s *Server) Run() {

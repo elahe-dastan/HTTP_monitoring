@@ -1,6 +1,6 @@
 package main
 
-import "HTTP_monitoring/cmd"
+import "github.com/elahe-dastan/HTTP_monitoring/cmd"
 
 func main() {
 	cmd.Execute()

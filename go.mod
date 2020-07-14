@@ -1,4 +1,4 @@
-module HTTP_monitoring
+module github.com/elahe-dastan/HTTP_monitoring
 
 go 1.13
 

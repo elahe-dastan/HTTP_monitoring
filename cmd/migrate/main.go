@@ -1,8 +1,9 @@
 package migrate
 
 import (
-	"HTTP_monitoring/store"
 	"database/sql"
+
+	"github.com/elahe-dastan/HTTP_monitoring/store"
 
 	"github.com/spf13/cobra"
 )
@@ -18,7 +19,7 @@ func Register(root *cobra.Command, d *sql.DB) {
 			url := store.NewURL(d)
 			url.Create()
 
-			status := store.NewStatus(d)
+			status := store.NewSQLStatus(d)
 			status.Create()
 		},
 	}

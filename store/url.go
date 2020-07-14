@@ -1,10 +1,11 @@
 package store
 
 import (
-	"HTTP_monitoring/model"
 	"database/sql"
 	"fmt"
 	"log"
+
+	"github.com/elahe-dastan/HTTP_monitoring/model"
 )
 
 type SQLURL struct {

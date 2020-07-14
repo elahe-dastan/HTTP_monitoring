@@ -32,6 +32,7 @@ type Database struct {
 type Redis struct {
 	Host     string `mapstructure:"host"`
 	Port     string `mapstructure:"port"`
+	Threshold int   `mapstructure:"threshold"`
 }
 
 func Read() Config {

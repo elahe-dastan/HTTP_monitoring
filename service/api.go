@@ -1,14 +1,15 @@
 package service
 
 import (
-	"HTTP_monitoring/authentication"
-	"HTTP_monitoring/config"
-	"HTTP_monitoring/model"
-	"HTTP_monitoring/request"
-	"HTTP_monitoring/store"
 	"errors"
 	"net/http"
 	"net/url"
+
+	"github.com/elahe-dastan/HTTP_monitoring/authentication"
+	"github.com/elahe-dastan/HTTP_monitoring/config"
+	"github.com/elahe-dastan/HTTP_monitoring/model"
+	"github.com/elahe-dastan/HTTP_monitoring/request"
+	"github.com/elahe-dastan/HTTP_monitoring/store"
 
 	"github.com/labstack/echo/v4"
 )

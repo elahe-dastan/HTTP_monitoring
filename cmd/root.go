@@ -1,13 +1,14 @@
 package cmd
 
 import (
-	"HTTP_monitoring/cmd/migrate"
-	"HTTP_monitoring/cmd/server"
-	"HTTP_monitoring/config"
-	"HTTP_monitoring/db"
-	"HTTP_monitoring/memory"
 	"fmt"
 	"os"
+
+	"github.com/elahe-dastan/HTTP_monitoring/cmd/migrate"
+	"github.com/elahe-dastan/HTTP_monitoring/cmd/server"
+	"github.com/elahe-dastan/HTTP_monitoring/config"
+	"github.com/elahe-dastan/HTTP_monitoring/db"
+	"github.com/elahe-dastan/HTTP_monitoring/memory"
 
 	"github.com/spf13/cobra"
 )
@@ -29,7 +30,7 @@ func Execute() {
 	r := memory.New(cfg.Redis)
 
 	migrate.Register(rootCmd, d)
-	server.Register(rootCmd, d, cfg.JWT, r)
+	server.Register(rootCmd, d, cfg.JWT, r, cfg.Redis.Threshold)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)

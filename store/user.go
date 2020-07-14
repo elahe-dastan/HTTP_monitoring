@@ -1,10 +1,11 @@
 package store
 
 import (
-	"HTTP_monitoring/model"
 	"database/sql"
 	"errors"
 	"log"
+
+	"github.com/elahe-dastan/HTTP_monitoring/model"
 )
 
 var ErrNotFound = errors.New("this user doesn't exist in the database")

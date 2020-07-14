@@ -1,18 +1,18 @@
 package server
 
 import (
-	"HTTP_monitoring/config"
-	"HTTP_monitoring/memory"
-	"HTTP_monitoring/service"
-	"HTTP_monitoring/store"
 	"database/sql"
 	"log"
+
+	"github.com/elahe-dastan/HTTP_monitoring/config"
+	"github.com/elahe-dastan/HTTP_monitoring/service"
+	"github.com/elahe-dastan/HTTP_monitoring/store"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/spf13/cobra"
 )
 
-func Register(root *cobra.Command, d *sql.DB, cfg config.JWT, r redis.Conn) {
+func Register(root *cobra.Command, d *sql.DB, jwt config.JWT, r redis.Conn, threshold int) {
 	c := cobra.Command{
 		Use:   "server",
 		Short: "Run server to serve the requests",
@@ -21,7 +21,7 @@ func Register(root *cobra.Command, d *sql.DB, cfg config.JWT, r redis.Conn) {
 			api := service.API{
 				User:   store.NewUser(d),
 				URL:    URL,
-				Config: cfg,
+				Config: jwt,
 			}
 
 			du, err := cmd.Flags().GetInt("duration")
@@ -30,9 +30,10 @@ func Register(root *cobra.Command, d *sql.DB, cfg config.JWT, r redis.Conn) {
 			}
 			s := service.Server{
 				URL:      URL,
-				Status:   store.NewStatus(d),
+				Status:   store.NewSQLStatus(d),
 				Duration: du,
-				Redis:     memory.NewStatus(r),
+				Redis:     store.NewRedisStatus(r),
+				Threshold: threshold,
 			}
 			go s.Run()
 			api.Run()
