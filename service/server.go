@@ -25,7 +25,13 @@ func (s *Server) Run() {
 		<-ticker.C
 
 		counter++
-		if counter == 101 {
+		if counter == 6 {
+			models := s.Redis.Flush()
+			for i := 0; i < len(models); i++ {
+				if err := s.Status.Insert(models[i]); err != nil {
+					fmt.Println(err)
+				}
+			}
 			counter = 1
 		}
 
@@ -54,11 +60,7 @@ func (s *Server) Run() {
 			status.Clock = time.Now()
 			status.StatusCode = resp.StatusCode
 
-			// Insert to redis
 			s.Redis.Insert(status)
-			//if err := s.Status.Insert(status); err != nil {
-			//	fmt.Println(err)
-			//}
 		}
 	}
 }
