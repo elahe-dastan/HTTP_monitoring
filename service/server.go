@@ -55,9 +55,10 @@ func (s *Server) Run() {
 			status.StatusCode = resp.StatusCode
 
 			// Insert to redis
-			if err := s.Status.Insert(status); err != nil {
-				fmt.Println(err)
-			}
+			s.Redis.Insert(status)
+			//if err := s.Status.Insert(status); err != nil {
+			//	fmt.Println(err)
+			//}
 		}
 	}
 }

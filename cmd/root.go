@@ -6,7 +6,6 @@ import (
 	"HTTP_monitoring/config"
 	"HTTP_monitoring/db"
 	"HTTP_monitoring/memory"
-	"HTTP_monitoring/redis"
 	"fmt"
 	"os"
 

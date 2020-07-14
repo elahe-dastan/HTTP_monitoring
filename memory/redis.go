@@ -13,7 +13,5 @@ func New(config config.Redis) redis.Conn {
 		log.Fatal(err)
 	}
 
-	defer conn.Close()
-
 	return conn
 }
