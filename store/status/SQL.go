@@ -7,6 +7,10 @@ import (
 	"gorm.io/gorm"
 )
 
+type Status interface {
+	Insert(status model.Status) error
+}
+
 type SQLStatus struct {
 	DB *gorm.DB
 }

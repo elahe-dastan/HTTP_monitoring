@@ -11,6 +11,11 @@ import (
 var ErrNotFound = errors.New("this user doesn't exist in the database")
 var ErrWrongPass = errors.New("password is not correct")
 
+type User interface {
+	Insert(user model.User) error
+	Retrieve(user model.User) (model.User, error)
+}
+
 type SQLUser struct {
 	DB *gorm.DB
 }
@@ -28,15 +33,6 @@ func (u SQLUser) Create() {
 	if err := u.DB.Migrator().CreateTable(&model.User{}); err != nil {
 		log.Fatal(err)
 	}
-	//_, err := u.DB.Exec("CREATE TABLE IF NOT EXISTS users (" +
-	//	"id serial PRIMARY KEY," +
-	//	"email VARCHAR NOT NULL," +
-	//	"pass VARCHAR NOT NULL," +
-	//	"CONSTRAINT email_unique UNIQUE (email)" +
-	//	");")
-	//if err != nil {
-	//	log.Println("Cannot create users table due to the following error", err.Error())
-	//}
 }
 
 func (u SQLUser) Insert(user model.User) error {

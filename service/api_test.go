@@ -2,9 +2,6 @@
 package service
 
 import (
-	"HTTP_monitoring/config"
-	"HTTP_monitoring/db"
-	"HTTP_monitoring/store"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -12,6 +9,10 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+
+	"github.com/elahe-dastan/HTTP_monitoring/config"
+	"github.com/elahe-dastan/HTTP_monitoring/db"
+	"github.com/elahe-dastan/HTTP_monitoring/store"
 
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
