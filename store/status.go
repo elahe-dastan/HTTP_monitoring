@@ -3,6 +3,7 @@ package store
 import (
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/elahe-dastan/HTTP_monitoring/model"
 	"github.com/gomodule/redigo/redis"
@@ -16,6 +17,13 @@ type SQLStatus struct {
 type RedisStatus struct {
 	Redis   redis.Conn
 	Counter int
+}
+
+type Status struct {
+	ID int
+	URLID      int `redis:"url"`
+	Clock      string	`redis:"clock"`
+	StatusCode int	`redis:"status"`
 }
 
 func NewSQLStatus(d *gorm.DB) SQLStatus {
@@ -63,7 +71,7 @@ func NewRedisStatus(r redis.Conn) RedisStatus {
 
 func (s *RedisStatus) Insert(status model.Status) {
 	_, err := s.Redis.Do("HMSET", "status:" + strconv.Itoa(s.Counter), "url", status.URLID, "clock",
-		status.Clock, "status", status.StatusCode)
+		status.Clock.Format(time.RFC822), "status", status.StatusCode)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -80,13 +88,19 @@ func (s *RedisStatus) Flush() []model.Status{
 			log.Fatal(err)
 		}
 
-		var status model.Status
+		var status Status
 		err = redis.ScanStruct(values, &status)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		models[i] = status
+		models[i].ID = status.ID
+		models[i].URLID = status.URLID
+		models[i].Clock,err = time.Parse(time.RFC822, status.Clock)
+		if err != nil {
+			log.Fatal(err)
+		}
+		models[i].StatusCode = status.StatusCode
 
 		_, err = s.Redis.Do("DEL", "status:" + strconv.Itoa(i))
 		if err != nil {
