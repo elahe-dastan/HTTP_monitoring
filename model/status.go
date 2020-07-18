@@ -1,7 +1,9 @@
 package model
 
+import "time"
+
 type Status struct {
-	URL        int	`redis:"url"`
-	Clock      string	`redis:"clock"`
+	URL        URL	`redis:"url"`
+	Clock      time.Time	`redis:"clock"`
 	StatusCode int	`redis:"status"`
 }
