@@ -10,7 +10,7 @@ type User struct {
 	Info map[string]string
 }
 
-func (u *User) Insert(user model.User) error {
+func (u User) Insert(user model.User) error {
 	_, ok := u.Info[user.Email]
 	if ok {
 		return errors.New("this email exists")
@@ -21,7 +21,7 @@ func (u *User) Insert(user model.User) error {
 	return nil
 }
 
-func (u *User) Retrieve(user model.User) (model.User, error)  {
+func (u User) Retrieve(user model.User) (model.User, error)  {
 	pass, ok := u.Info[user.Email]
 
 	if ok {
