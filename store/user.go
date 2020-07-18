@@ -39,13 +39,10 @@ func (u SQLUser) Create() {
 	//}
 }
 
-func (u SQLUser) Insert(user model.User) {
-	u.DB.Create(&user)
-	//check its primary key
-	//_, err := u.DB.Exec("INSERT INTO users (email, pass) VALUES ($1, $2)",
-	//	user.Email, user.Password)
+func (u SQLUser) Insert(user model.User) error {
+	result := u.DB.Create(&user)
 
-	//return err
+	return result.Error
 }
 
 //nolint: gofumpt
@@ -53,9 +50,6 @@ func (u SQLUser) Retrieve(user model.User) (model.User, error) {
 	var us model.User
 
 	u.DB.Where("email = ?", user.Email).First(&us)
-	//if err != nil {
-	//	log.Println(err)
-	//}
 
 	var err error
 

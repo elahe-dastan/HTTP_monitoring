@@ -32,16 +32,6 @@ func (m SQLStatus) Create() {
 	if err := m.DB.Migrator().CreateTable(&model.Status{}); err != nil {
 		log.Fatal(err)
 	}
-	//_, err := m.DB.Exec("CREATE TABLE IF NOT EXISTS status (" +
-	//	"id serial PRIMARY KEY," +
-	//	"url INTEGER," +
-	//	"clock TIMESTAMP NOT NULL," +
-	//	"status INTEGER NOT NULL," +
-	//	"FOREIGN KEY (url) REFERENCES url (id)" +
-	//	");")
-	//if err != nil {
-	//	log.Println("Cannot create status table due to the following error", err.Error())
-	//}
 
 	m.DB.Exec("create or replace function delete_expired_row() " +
 		"returns trigger as " +
@@ -57,24 +47,12 @@ func (m SQLStatus) Create() {
 		"on status " +
 		"for each row " +
 		"execute procedure delete_expired_row();")
-
-	//_, err = m.DB.Exec()
-	//
-	//if err != nil {
-	//	log.Println("Cannot create put trigger on status table due to the following error", err.Error())
-	//}
 }
 
-func (m SQLStatus) Insert(status model.Status) {
-	//date, err := time.Parse(time.Stamp, status.Clock)
-	//if err != nil {
-	//	return err
-	//}
-	m.DB.Create(&status)
-	//_, err = m.DB.Exec("INSERT INTO status (url, clock, status) VALUES ($1, $2, $3)",
-	//	status.URL, date, status.StatusCode)
-	//
-	//return err
+func (m SQLStatus) Insert(status model.Status) error {
+	result := m.DB.Create(&status)
+
+	return result.Error
 }
 
 

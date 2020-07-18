@@ -43,10 +43,9 @@ func (a API) Register(c echo.Context) error {
 	}
 
 	//nolint: errcheck
-	a.User.Insert(user)
-	//; err != nil {
-	//	c.JSON(http.StatusConflict, err.Error())
-	//}
+	if err := a.User.Insert(user); err != nil {
+		c.JSON(http.StatusConflict, err.Error())
+	}
 
 	return c.JSON(http.StatusCreated, user)
 }
@@ -84,7 +83,7 @@ func (a API) Add(c echo.Context) error {
 		return err
 	}
 
-	in, _ := authentication.ValidateToken(token, a.Config)
+	in, id := authentication.ValidateToken(token, a.Config)
 
 	if !in {
 		return echo.NewHTTPError(http.StatusForbidden, ErrLoggedOut.Error())
@@ -97,14 +96,13 @@ func (a API) Add(c echo.Context) error {
 
 	var u model.URL
 
-	//u.UserID = id
+	u.UserID = id
 	u.URL = newURL.URL
 	u.Period = newURL.Period
 
-	a.URL.Insert(u)
-	//; err != nil {
-	//	return c.JSON(http.StatusInternalServerError, err.Error())
-	//}
+	if err := a.URL.Insert(u); err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
 
 	return c.JSON(http.StatusCreated, u)
 }
