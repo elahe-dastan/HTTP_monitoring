@@ -38,35 +38,30 @@ func (s *Server) Run() {
 			counter = 1
 		}
 
-		rows, err := s.URL.GetTable()
+		urls, err := s.URL.GetTable()
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		//nolint: bodyclose
-		for rows.Next() {
-			var url model.URL
+		for _, u := range urls {
 
-			if err := rows.Scan(&url.ID, &url.UserID, &url.URL, &url.Period); err != nil {
-				fmt.Println(err)
-			}
-
-			if counter % url.Period != 0 {
+			if counter % u.Period != 0 {
 				continue
 			}
 
 			//nolint: noctx
-			resp, err := http.Get(url.URL)
+			resp, err := http.Get(u.URL)
 			if err != nil {
 				fmt.Println(err)
 			}
 
-			var status model.Status
-			status.URLID = url.ID
-			status.Clock = time.Now()
-			status.StatusCode = resp.StatusCode
+			var st model.Status
+			st.URLID = u.ID
+			st.Clock = time.Now()
+			st.StatusCode = resp.StatusCode
 
-			s.Redis.Insert(status)
+			s.Redis.Insert(st)
 		}
 	}
 }

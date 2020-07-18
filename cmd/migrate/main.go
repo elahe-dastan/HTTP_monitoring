@@ -2,7 +2,7 @@ package migrate
 
 import (
 	"github.com/elahe-dastan/HTTP_monitoring/store"
-	status2 "github.com/elahe-dastan/HTTP_monitoring/store/status"
+	"github.com/elahe-dastan/HTTP_monitoring/store/status"
 	"gorm.io/gorm"
 
 	"github.com/spf13/cobra"
@@ -19,8 +19,8 @@ func Register(root *cobra.Command, d *gorm.DB) {
 			url := store.NewURL(d)
 			url.Create()
 
-			status := status2.NewSQLStatus(d)
-			status.Create()
+			sqlStatus := status.NewSQLStatus(d)
+			sqlStatus.Create()
 		},
 	}
 

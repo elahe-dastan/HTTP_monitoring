@@ -1,7 +1,6 @@
 package store
 
 import (
-	"database/sql"
 	"log"
 
 	"github.com/elahe-dastan/HTTP_monitoring/model"
@@ -33,8 +32,13 @@ func (u SQLURL) Insert(url model.URL) error {
 	return result.Error
 }
 
-func (u SQLURL) GetTable() (*sql.Rows, error) {
-	result := u.DB.Find(&model.URL{})
+func (u SQLURL) GetTable() ([]model.URL, error) {
+	var models []model.URL
 
-	return result.Rows()
+	result := u.DB.Find(&models)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return models, nil
 }
