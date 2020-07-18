@@ -128,11 +128,10 @@ func Add(t *testing.T, token string, api API) {
 
 func TestAPI(t *testing.T) {
 	cfg := config.Read()
-	d := db.New(cfg.Database)
 
 	api := API{
-		User:   store.NewUser(d),
-		URL:    store.NewURL(d),
+		User:   mock.User{Info: map[string]string{}},
+		URL:    mock.URL{Urls: map[string]int{}},
 		Config: cfg.JWT,
 	}
 
