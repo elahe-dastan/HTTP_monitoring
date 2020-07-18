@@ -84,7 +84,7 @@ func (a API) Add(c echo.Context) error {
 		return err
 	}
 
-	in, id := authentication.ValidateToken(token, a.Config)
+	in, _ := authentication.ValidateToken(token, a.Config)
 
 	if !in {
 		return echo.NewHTTPError(http.StatusForbidden, ErrLoggedOut.Error())
@@ -97,13 +97,14 @@ func (a API) Add(c echo.Context) error {
 
 	var u model.URL
 
-	u.UserID = id
+	//u.UserID = id
 	u.URL = newURL.URL
 	u.Period = newURL.Period
 
-	if err := a.URL.Insert(u); err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
+	a.URL.Insert(u)
+	//; err != nil {
+	//	return c.JSON(http.StatusInternalServerError, err.Error())
+	//}
 
 	return c.JSON(http.StatusCreated, u)
 }
