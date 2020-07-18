@@ -17,8 +17,8 @@ import (
 var ErrLoggedOut = errors.New("you are not logged in")
 
 type API struct {
-	User   store.SQLUser
-	URL    store.SQLURL
+	User   store.User
+	URL    store.URL
 	Config config.JWT
 }
 

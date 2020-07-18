@@ -12,27 +12,50 @@ import (
 
 	"github.com/elahe-dastan/HTTP_monitoring/config"
 	"github.com/elahe-dastan/HTTP_monitoring/db"
+	"github.com/elahe-dastan/HTTP_monitoring/mock"
 	"github.com/elahe-dastan/HTTP_monitoring/store"
 
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 )
 
-func Register(t *testing.T) {
+func TestRegisterEmailEmpty(t *testing.T) {
 	cfg := config.Read()
-	d := db.New(cfg.Database)
 
 	api := API{
-		User:   store.NewUser(d),
-		URL:    store.NewURL(d),
+		User:   mock.User{Info: map[string]string{}},
+		URL:    mock.URL{Urls: map[string]int{}},
 		Config: cfg.JWT,
 	}
 
 	e := echo.New()
 	e.POST("/register", api.Register)
 
+	registerationJSON := `{"Password":"1378"}`
+
+	req := httptest.NewRequest(http.MethodPost, "/register", strings.NewReader(registerationJSON))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+
+	rec := httptest.NewRecorder()
+	e.ServeHTTP(rec, req)
+
+	resp := rec.Result()
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+
+	assert.Nil(t, err, "Cannot read body")
+
+	assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
+
+	fmt.Println(string(body))
+}
+
+func Register(t *testing.T, api API) {
+	e := echo.New()
+	e.POST("/register", api.Register)
+
 	registerationJSON := `{"Email":"parham.alvani@gmail.com",
-							"Password":"12345"}`
+							"Password":"1378"}`
 
 	req := httptest.NewRequest(http.MethodPost, "/register", strings.NewReader(registerationJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
@@ -51,21 +74,12 @@ func Register(t *testing.T) {
 	fmt.Println(string(body))
 }
 
-func Login(t *testing.T) string {
-	cfg := config.Read()
-	d := db.New(cfg.Database)
-
-	api := API{
-		User:   store.NewUser(d),
-		URL:    store.NewURL(d),
-		Config: cfg.JWT,
-	}
-
+func Login(t *testing.T, api API) string {
 	e := echo.New()
 	e.POST("/login", api.Login)
 
 	loginJSON := `{"Email":"parham.alvani@gmail.com",
-							"Password":"12345"}`
+							"Password":"1378"}`
 
 	req := httptest.NewRequest(http.MethodPost, "/login", strings.NewReader(loginJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
@@ -87,20 +101,11 @@ func Login(t *testing.T) string {
 	return string(body)
 }
 
-func Add(t *testing.T, token string) {
-	cfg := config.Read()
-	d := db.New(cfg.Database)
-
-	api := API{
-		User:   store.NewUser(d),
-		URL:    store.NewURL(d),
-		Config: cfg.JWT,
-	}
-
+func Add(t *testing.T, token string, api API) {
 	e := echo.New()
 	e.POST("/url", api.Add)
 
-	addJSON := `{"URL": "https://www.google.com"}`
+	addJSON := `{"URL": "https://www.google.com", "Period": 2}`
 
 	req := httptest.NewRequest(http.MethodPost, "/url", strings.NewReader(addJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
@@ -122,9 +127,18 @@ func Add(t *testing.T, token string) {
 }
 
 func TestAPI(t *testing.T) {
-	Register(t)
-	token := Login(t)
-	Add(t, token)
+	cfg := config.Read()
+	d := db.New(cfg.Database)
+
+	api := API{
+		User:   store.NewUser(d),
+		URL:    store.NewURL(d),
+		Config: cfg.JWT,
+	}
+
+	Register(t, api)
+	token := Login(t, api)
+	Add(t, token, api)
 }
 
 func checkClose(resp *http.Response) {

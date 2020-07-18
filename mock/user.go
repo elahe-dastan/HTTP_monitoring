@@ -7,22 +7,22 @@ import (
 )
 
 type User struct {
-	info map[string]string
+	Info map[string]string
 }
 
 func (u *User) Insert(user model.User) error {
-	_, ok := u.info[user.Email]
+	_, ok := u.Info[user.Email]
 	if ok {
 		return errors.New("this email exists")
 	}
 
-	u.info[user.Email] = user.Password
+	u.Info[user.Email] = user.Password
 
 	return nil
 }
 
 func (u *User) Retrieve(user model.User) (model.User, error)  {
-	pass, ok := u.info[user.Email]
+	pass, ok := u.Info[user.Email]
 
 	if ok {
 		if user.Password == pass {
