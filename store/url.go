@@ -1,6 +1,8 @@
 package store
 
 import (
+	"log"
+
 	"github.com/elahe-dastan/HTTP_monitoring/model"
 	"gorm.io/gorm"
 )
@@ -15,7 +17,13 @@ func NewURL(d *gorm.DB) SQLURL {
 
 // Creates a table in the database that matches the URL table.
 func (u SQLURL) Create() {
-	u.DB.Migrator().CreateTable(&model.URL{})
+	if err := u.DB.Migrator().DropTable(&model.URL{}); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := u.DB.Migrator().CreateTable(&model.URL{}); err != nil {
+		log.Fatal(err)
+	}
 	//_, err := u.DB.Exec("CREATE TABLE IF NOT EXISTS url (" +
 	//	"id serial PRIMARY KEY," +
 	//	"u INTEGER," +

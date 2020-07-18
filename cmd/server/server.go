@@ -1,7 +1,6 @@
 package server
 
 import (
-	"database/sql"
 	"log"
 
 	"github.com/elahe-dastan/HTTP_monitoring/config"

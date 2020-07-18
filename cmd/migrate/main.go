@@ -1,8 +1,6 @@
 package migrate
 
 import (
-	"database/sql"
-
 	"github.com/elahe-dastan/HTTP_monitoring/store"
 	"gorm.io/gorm"
 

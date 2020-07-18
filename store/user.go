@@ -21,6 +21,10 @@ func NewUser(d *gorm.DB) SQLUser {
 
 // Creates a table in the database that matches the User table.
 func (u SQLUser) Create() {
+	if err := u.DB.Migrator().DropTable(&model.User{}); err != nil {
+		log.Fatal(err)
+	}
+
 	if err := u.DB.Migrator().CreateTable(&model.User{}); err != nil {
 		log.Fatal(err)
 	}
