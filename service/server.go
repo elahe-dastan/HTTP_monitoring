@@ -34,7 +34,7 @@ func (s *Server) Run() {
 					fmt.Println(err)
 				}
 			}
-			counter = 0
+			counter = 1
 		}
 
 		rows, err := s.URL.GetTable()
@@ -46,7 +46,7 @@ func (s *Server) Run() {
 		for rows.Next() {
 			var url model.URL
 
-			if err := rows.Scan(&url); err != nil {
+			if err := rows.Scan(&url.ID, &url.UserID, &url.URL, &url.Period); err != nil {
 				fmt.Println(err)
 			}
 

@@ -37,14 +37,14 @@ func (m SQLStatus) Create() {
 		"returns trigger as " +
 		"$BODY$ " +
 		"begin " +
-		"delete from status where clock < NOW() - INTERVAL '2 days'; " +
+		"delete from statuses where clock < NOW() - INTERVAL '2 days'; " +
 		"return null; " +
 		"end; " +
 		"$BODY$ " +
 		"LANGUAGE plpgsql;" +
 		"create trigger delete_expired_rows " +
 		"after insert " +
-		"on status " +
+		"on statuses " +
 		"for each row " +
 		"execute procedure delete_expired_row();")
 }

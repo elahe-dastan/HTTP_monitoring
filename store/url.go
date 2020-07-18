@@ -34,7 +34,7 @@ func (u SQLURL) Insert(url model.URL) error {
 }
 
 func (u SQLURL) GetTable() (*sql.Rows, error) {
-	result := u.DB.Find(&model.User{})
+	result := u.DB.Find(&model.URL{})
 
 	return result.Rows()
 }
