@@ -4,11 +4,12 @@ import (
 	"database/sql"
 
 	"github.com/elahe-dastan/HTTP_monitoring/store"
+	"gorm.io/gorm"
 
 	"github.com/spf13/cobra"
 )
 
-func Register(root *cobra.Command, d *sql.DB) {
+func Register(root *cobra.Command, d *gorm.DB) {
 	c := cobra.Command{
 		Use:   "migrate",
 		Short: "Manages database, creates and fills tables if don't exist",

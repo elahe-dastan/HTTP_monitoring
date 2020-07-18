@@ -7,12 +7,13 @@ import (
 	"github.com/elahe-dastan/HTTP_monitoring/config"
 	"github.com/elahe-dastan/HTTP_monitoring/service"
 	"github.com/elahe-dastan/HTTP_monitoring/store"
+	"gorm.io/gorm"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/spf13/cobra"
 )
 
-func Register(root *cobra.Command, d *sql.DB, jwt config.JWT, r redis.Conn, threshold int) {
+func Register(root *cobra.Command, d *gorm.DB, jwt config.JWT, r redis.Conn, threshold int) {
 	c := cobra.Command{
 		Use:   "server",
 		Short: "Run server to serve the requests",

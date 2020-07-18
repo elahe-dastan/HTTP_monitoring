@@ -43,9 +43,10 @@ func (a API) Register(c echo.Context) error {
 	}
 
 	//nolint: errcheck
-	if err := a.User.Insert(user); err != nil {
-		c.JSON(http.StatusConflict, err.Error())
-	}
+	a.User.Insert(user)
+	//; err != nil {
+	//	c.JSON(http.StatusConflict, err.Error())
+	//}
 
 	return c.JSON(http.StatusCreated, user)
 }

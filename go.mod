@@ -6,8 +6,10 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gomodule/redigo/redis v0.0.0-20200429221454-e14091dffc1b
 	github.com/labstack/echo/v4 v4.1.16
-	github.com/lib/pq v1.7.0
+	github.com/lib/pq v1.7.0 // indirect
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/viper v1.7.0
-	github.com/stretchr/testify v1.4.0
+	github.com/stretchr/testify v1.5.1
+	gorm.io/driver/postgres v0.2.5
+	gorm.io/gorm v0.2.22
 )

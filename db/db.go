@@ -1,19 +1,16 @@
 package db
 
 import (
-	"database/sql"
 	"log"
 
 	"github.com/elahe-dastan/HTTP_monitoring/config"
-
-	_ "github.com/lib/pq" //adding dialect for postgres
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-const DB = "postgres"
-
 //nolint: gofumpt
-func New(config config.Database) *sql.DB {
-	db, err := sql.Open(DB, config.Cstring())
+func New(config config.Database) *gorm.DB {
+	db, err := gorm.Open(postgres.Open(config.Cstring()), &gorm.Config{})
 	if err != nil {
 		log.Printf("can not open connection to database due to the following err\n: %s", err)
 	}
