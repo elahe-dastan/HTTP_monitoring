@@ -8,13 +8,14 @@ import (
 
 	"github.com/elahe-dastan/HTTP_monitoring/model"
 	"github.com/elahe-dastan/HTTP_monitoring/store"
+	"github.com/elahe-dastan/HTTP_monitoring/store/status"
 )
 
 type Server struct {
-	URL      store.SQLURL
-	Status   store.SQLStatus
-	Duration int
-	Redis    store.RedisStatus
+	URL       store.SQLURL
+	Status    status.SQLStatus
+	Duration  int
+	Redis     status.RedisStatus
 	Threshold int
 }
 

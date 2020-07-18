@@ -6,6 +6,7 @@ import (
 	"github.com/elahe-dastan/HTTP_monitoring/config"
 	"github.com/elahe-dastan/HTTP_monitoring/service"
 	"github.com/elahe-dastan/HTTP_monitoring/store"
+	"github.com/elahe-dastan/HTTP_monitoring/store/status"
 	"gorm.io/gorm"
 
 	"github.com/gomodule/redigo/redis"
@@ -29,10 +30,10 @@ func Register(root *cobra.Command, d *gorm.DB, jwt config.JWT, r redis.Conn, thr
 				log.Fatal(err)
 			}
 			s := service.Server{
-				URL:      URL,
-				Status:   store.NewSQLStatus(d),
-				Duration: du,
-				Redis:     store.NewRedisStatus(r),
+				URL:       URL,
+				Status:    status.NewSQLStatus(d),
+				Duration:  du,
+				Redis:     status.NewRedisStatus(r),
 				Threshold: threshold,
 			}
 			go s.Run()
