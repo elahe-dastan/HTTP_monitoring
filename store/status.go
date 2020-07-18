@@ -84,7 +84,7 @@ func NewRedisStatus(r redis.Conn) RedisStatus {
 }
 
 func (s *RedisStatus) Insert(status model.Status) {
-	_, err := s.Redis.Do("HMSET", "status:" + strconv.Itoa(s.Counter), "url", status.URL, "clock",
+	_, err := s.Redis.Do("HMSET", "status:" + strconv.Itoa(s.Counter), "url", status.URLID, "clock",
 		status.Clock, "status", status.StatusCode)
 	if err != nil {
 		log.Fatal(err)

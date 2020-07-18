@@ -1,9 +1,15 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Status struct {
-	URL        URL	`redis:"url"`
+	gorm.Model
+	ID int `gorm:"primaryKey,AUTO_INCREMENT"`
+	URLID      int `redis:"url"`
 	Clock      time.Time	`redis:"clock"`
 	StatusCode int	`redis:"status"`
 }
