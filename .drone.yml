@@ -20,6 +20,11 @@ steps:
     image: golang
     commands:
       - go test -v ./...
+    environment:
+      MONITOR_DB_HOST: "database"
+      MONITOR_DB_PORT: 5432
+      MONITOR_REDIS_HOST: "redis"
+      MONITOR_REDIS_PORT: 6379
 
 services:
   - name: database
