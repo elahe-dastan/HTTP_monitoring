@@ -1,4 +1,4 @@
-package store
+package store_test
 
 import (
 	"fmt"
@@ -9,6 +9,7 @@ import (
 	"github.com/elahe-dastan/HTTP_monitoring/db"
 	"github.com/elahe-dastan/HTTP_monitoring/memory"
 	"github.com/elahe-dastan/HTTP_monitoring/model"
+	"github.com/elahe-dastan/HTTP_monitoring/store"
 	"github.com/elahe-dastan/HTTP_monitoring/store/status"
 	"github.com/stretchr/testify/assert"
 )
@@ -16,7 +17,7 @@ import (
 func TestUser(t *testing.T) {
 	cfg := config.Read()
 	d := db.New(cfg.Database)
-	user := NewUser(d)
+	user := store.NewUser(d)
 
 	m := model.User{
 		Email:    "parham.alvani@gmail.com",
@@ -36,7 +37,7 @@ func TestUser(t *testing.T) {
 func TestURL(t *testing.T) {
 	cfg := config.Read()
 	d := db.New(cfg.Database)
-	user := NewUser(d)
+	user := store.NewUser(d)
 
 	m := model.User{
 		ID:       1,
@@ -48,7 +49,7 @@ func TestURL(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	url := NewURL(d)
+	url := store.NewURL(d)
 
 	u := model.URL{
 		UserID:   1,

@@ -22,7 +22,7 @@ type Server struct {
 func (s *Server) Run() {
 	ticker := time.NewTicker(time.Duration(s.Duration) * time.Minute)
 	counter := 0
-	
+
 	for {
 		<-ticker.C
 
@@ -34,6 +34,7 @@ func (s *Server) Run() {
 					fmt.Println(err)
 				}
 			}
+
 			counter = 1
 		}
 

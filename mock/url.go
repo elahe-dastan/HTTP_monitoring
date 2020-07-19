@@ -15,9 +15,9 @@ func (u URL) Insert(url model.URL) error {
 }
 
 func (u URL) GetTable() ([]model.URL, error) {
-	 models := make([]model.URL, 0)
+	models := make([]model.URL, 0)
 
-	for k,v := range u.Urls {
+	for k, v := range u.Urls {
 		m := model.URL{
 			ID:       0,
 			UserID:   0,
