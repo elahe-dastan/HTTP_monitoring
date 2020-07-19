@@ -11,9 +11,7 @@ import (
 	"testing"
 
 	"github.com/elahe-dastan/HTTP_monitoring/config"
-	"github.com/elahe-dastan/HTTP_monitoring/db"
 	"github.com/elahe-dastan/HTTP_monitoring/mock"
-	"github.com/elahe-dastan/HTTP_monitoring/store"
 
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
@@ -109,7 +107,7 @@ func Add(t *testing.T, token string, api API) {
 
 	req := httptest.NewRequest(http.MethodPost, "/url", strings.NewReader(addJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-	req.Header.Set("Token", token)
+	req.Header.Set("Authorization", token)
 
 	rec := httptest.NewRecorder()
 	e.ServeHTTP(rec, req)

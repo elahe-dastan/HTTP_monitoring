@@ -28,7 +28,8 @@ func TestUser(t *testing.T) {
 
 	assert.Nil(t, err)
 
-	assert.Equal(t, m, u)
+	assert.Equal(t, m.Email, u.Email)
+	assert.Equal(t, m.Password, u.Password)
 }
 
 func TestURL(t *testing.T) {
@@ -38,7 +39,7 @@ func TestURL(t *testing.T) {
 
 	m := model.User{
 		ID:       1,
-		Email:    "parham.alvani@gmail.com",
+		Email:    "elahe.dstn@gmail.com",
 		Password: "1373",
 	}
 
