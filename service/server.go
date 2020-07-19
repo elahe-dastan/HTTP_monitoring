@@ -45,7 +45,7 @@ func (s *Server) Run() {
 
 		//nolint: bodyclose
 		for _, u := range urls {
-			if counter % u.Period != 0 {
+			if counter%u.Period != 0 {
 				continue
 			}
 

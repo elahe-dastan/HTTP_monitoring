@@ -25,6 +25,7 @@ func (u User) Insert(user model.User) error {
 	return nil
 }
 
+//nolint: gofumpt
 func (u User) Retrieve(user model.User) (model.User, error) {
 	pass, ok := u.Info[user.Email]
 
