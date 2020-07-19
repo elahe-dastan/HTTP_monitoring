@@ -11,6 +11,8 @@ steps:
     image: golang
     commands:
       - go run main.go migrate
+    environment:
+      MONITOR_DB_HOST: "database"
   - name: test
     image: golang
     commands:
