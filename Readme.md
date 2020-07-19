@@ -38,3 +38,16 @@ add urls at the url endpoint the default period is 1 minute and he can specify t
 url.A goroutine is running and each minute gets all the urls, if the period has expired it gets the url and insert the<br/>
 information in redis, each 100 minutes all the data in the redis will be inserted in the status table in the postgres <br/>
 database and deleted from redis, these statuses will be deleted from database after 2 days.
+
+## System design
+
+![](HTTP_monitoring.png)
+
+As shown in the image I tried not to have a single point of failure so I have a backup database and I have run two<br/> 
+instances of the project, there are even two load balancers and the keepalived gives the IP of the working balancer to<br/> 
+another in case the first one fails to operate.
+
+## Load test
+I used K6 and here is the result:<br/>
+Load test on register end point<br/>
+![](register.png)

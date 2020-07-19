@@ -16,7 +16,7 @@ type Config struct {
 }
 
 type JWT struct {
-	SECRET     string `mapstructure:"secret"`
+	Secret     string `mapstructure:"secret"`
 	Expiration int    `mapstructure:"exp"`
 }
 
