@@ -25,7 +25,7 @@ func (u User) Insert(user model.User) error {
 	return nil
 }
 
-func (u User) Retrieve(user model.User) (model.User, error)  {
+func (u User) Retrieve(user model.User) (model.User, error) {
 	pass, ok := u.Info[user.Email]
 
 	if ok {

@@ -9,7 +9,7 @@ import (
 )
 
 func New(config config.Redis) redis.Conn {
-	conn, err := redis.Dial("tcp", config.Host + ":" + config.Port)
+	conn, err := redis.Dial("tcp", config.Host+":"+config.Port)
 	if err != nil {
 		log.Fatal(err)
 	}

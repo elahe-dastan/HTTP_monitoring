@@ -1,7 +1,6 @@
 package authentication
 
 import (
-	"os"
 	"time"
 
 	"github.com/elahe-dastan/HTTP_monitoring/config"
@@ -11,18 +10,13 @@ import (
 
 func CreateToken(id int, cfg config.JWT) (string, error) {
 	var err error
-	//Creating Access Token
-	err = os.Setenv("ACCESS_SECRET", cfg.SECRET) //this should be in an env file
-	if err != nil {
-		return "", err
-	}
 
 	atClaims := jwt.MapClaims{}
 	atClaims["authorized"] = true
 	atClaims["user_id"] = id
 	atClaims["exp"] = time.Now().Add(time.Minute * time.Duration(cfg.Expiration)).Unix()
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
-	token, err := at.SignedString([]byte(os.Getenv("ACCESS_SECRET")))
+	token, err := at.SignedString([]byte(cfg.SECRET))
 
 	if err != nil {
 		return "", err
