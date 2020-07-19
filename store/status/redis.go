@@ -20,7 +20,7 @@ func NewRedisStatus(r redis.Conn) RedisStatus {
 }
 
 func (s *RedisStatus) Insert(status model.Status) {
-	_, err := s.Redis.Do("HMSET", "status:" + strconv.Itoa(s.Counter), "url", status.URLID, "clock",
+	_, err := s.Redis.Do("HMSET", "status:"+strconv.Itoa(s.Counter), "url", status.URLID, "clock",
 		status.Clock.Format(time.RFC3339), "status", status.StatusCode)
 	if err != nil {
 		log.Fatal(err)
@@ -29,11 +29,11 @@ func (s *RedisStatus) Insert(status model.Status) {
 	s.Counter++
 }
 
-func (s *RedisStatus) Flush() []model.Status{
+func (s *RedisStatus) Flush() []model.Status {
 	models := make([]model.Status, s.Counter)
 
 	for i := 0; i < s.Counter; i++ {
-		values, err := redis.Values(s.Redis.Do("HGETALL", "status:" + strconv.Itoa(i)))
+		values, err := redis.Values(s.Redis.Do("HGETALL", "status:"+strconv.Itoa(i)))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -45,7 +45,7 @@ func (s *RedisStatus) Flush() []model.Status{
 		}
 
 		models[i].URLID = status.URLID
-		models[i].Clock,err = time.Parse(time.RFC3339, status.Clock)
+		models[i].Clock, err = time.Parse(time.RFC3339, status.Clock)
 
 		if err != nil {
 			log.Fatal(err)
@@ -53,7 +53,7 @@ func (s *RedisStatus) Flush() []model.Status{
 
 		models[i].StatusCode = status.StatusCode
 
-		_, err = s.Redis.Do("DEL", "status:" + strconv.Itoa(i))
+		_, err = s.Redis.Do("DEL", "status:"+strconv.Itoa(i))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -63,4 +63,3 @@ func (s *RedisStatus) Flush() []model.Status{
 
 	return models
 }
-
