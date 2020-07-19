@@ -2,6 +2,7 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -96,7 +97,13 @@ func Login(t *testing.T, api API) string {
 
 	fmt.Println(string(body))
 
-	return string(body)
+	var token string
+
+	if err := json.Unmarshal(body, &token); err != nil {
+		log.Fatal(err)
+	}
+
+	return token
 }
 
 func Add(t *testing.T, token string, api API) {
