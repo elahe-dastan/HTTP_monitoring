@@ -63,7 +63,6 @@ func TestURL(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-//nolint: gofumpt
 func TestRedis(t *testing.T) {
 	cfg := config.Read()
 	r := memory.New(cfg.Redis)
