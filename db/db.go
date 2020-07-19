@@ -8,7 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-//nolint: gofumpt
 func New(config config.Database) *gorm.DB {
 	db, err := gorm.Open(postgres.Open(config.Cstring()), &gorm.Config{})
 	if err != nil {

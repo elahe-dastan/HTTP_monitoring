@@ -22,8 +22,7 @@ type Server struct {
 func (s *Server) Run() {
 	ticker := time.NewTicker(time.Duration(s.Duration) * time.Minute)
 	counter := 0
-
-	//nolint: sqlclosecheck
+	
 	for {
 		<-ticker.C
 
@@ -45,7 +44,6 @@ func (s *Server) Run() {
 
 		//nolint: bodyclose
 		for _, u := range urls {
-
 			if counter % u.Period != 0 {
 				continue
 			}

@@ -6,6 +6,10 @@ import (
 	"github.com/elahe-dastan/HTTP_monitoring/model"
 )
 
+var ErrDuplicateEmail = errors.New("this email exists")
+var ErrWrongPass = errors.New("password is not correct")
+var ErrNotFound = errors.New("this user doesn't exist in the database")
+
 type User struct {
 	Info map[string]string
 }
@@ -13,7 +17,7 @@ type User struct {
 func (u User) Insert(user model.User) error {
 	_, ok := u.Info[user.Email]
 	if ok {
-		return errors.New("this email exists")
+		return ErrDuplicateEmail
 	}
 
 	u.Info[user.Email] = user.Password
@@ -34,8 +38,8 @@ func (u User) Retrieve(user model.User) (model.User, error)  {
 			}, nil
 		}
 
-		return model.User{}, errors.New("password is wrong")
+		return model.User{}, ErrWrongPass
 	}
 
-	return model.User{}, errors.New("email does not exist")
+	return model.User{}, ErrNotFound
 }

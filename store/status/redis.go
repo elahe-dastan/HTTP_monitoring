@@ -39,16 +39,18 @@ func (s *RedisStatus) Flush() []model.Status{
 		}
 
 		var status redisStatus
-		err = redis.ScanStruct(values, &status)
-		if err != nil {
+
+		if err := redis.ScanStruct(values, &status); err != nil {
 			log.Fatal(err)
 		}
 
 		models[i].URLID = status.URLID
 		models[i].Clock,err = time.Parse(time.RFC3339, status.Clock)
+
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		models[i].StatusCode = status.StatusCode
 
 		_, err = s.Redis.Do("DEL", "status:" + strconv.Itoa(i))

@@ -1,6 +1,7 @@
 package store
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -43,7 +44,9 @@ func TestURL(t *testing.T) {
 		Password: "1373",
 	}
 
-	user.Insert(m)
+	if err := user.Insert(m); err != nil {
+		fmt.Println(err)
+	}
 
 	url := NewURL(d)
 

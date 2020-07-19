@@ -1,6 +1,6 @@
 package request
 
 type URL struct {
-	URL string
+	URL    string
 	Period int
 }
