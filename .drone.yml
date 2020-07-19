@@ -13,6 +13,7 @@ steps:
       - go run main.go migrate
     environment:
       MONITOR_DB_HOST: "database"
+      MONITOR_DB_PORT: 5432
   - name: test
     image: golang
     commands:
@@ -25,3 +26,5 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: monitor
+  - name: redis
+    image: redis:latest
