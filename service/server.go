@@ -46,7 +46,6 @@ func (s *Server) Run() {
 			log.Fatal(err)
 		}
 
-		//nolint: bodyclose
 		for _, u := range urls {
 			fmt.Println(counter)
 			if counter%u.Period != 0 {

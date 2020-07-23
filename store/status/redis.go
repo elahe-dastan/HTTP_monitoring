@@ -29,7 +29,6 @@ func (s *RedisStatus) Insert(status model.Status) {
 	s.Counter++
 }
 
-//nolint: gofumpt
 func (s *RedisStatus) Flush() []model.Status {
 	models := make([]model.Status, s.Counter)
 

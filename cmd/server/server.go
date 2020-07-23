@@ -13,7 +13,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func Register(root *cobra.Command, d *gorm.DB, jwt config.JWT, r status.RedisStatus, threshold int, n *nats.Conn, natsConfig config.Nats) {
+func Register(root *cobra.Command, d *gorm.DB, jwt config.JWT, r status.RedisStatus,
+	threshold int, n *nats.Conn, natsConfig config.Nats) {
 	c := cobra.Command{
 		Use:   "server",
 		Short: "Run server to serve the requests",

@@ -9,7 +9,7 @@ import (
 	"github.com/elahe-dastan/HTTP_monitoring/cmd/subscriber"
 	"github.com/elahe-dastan/HTTP_monitoring/config"
 	"github.com/elahe-dastan/HTTP_monitoring/db"
-	"github.com/elahe-dastan/HTTP_monitoring/load_balancer"
+	"github.com/elahe-dastan/HTTP_monitoring/balancer"
 	"github.com/elahe-dastan/HTTP_monitoring/memory"
 	"github.com/elahe-dastan/HTTP_monitoring/store/status"
 
@@ -31,7 +31,7 @@ func Execute() {
 	cfg := config.Read()
 	d := db.New(cfg.Database)
 	r := memory.New(cfg.Redis)
-	n := load_balancer.New(cfg.Nats)
+	n := balancer.New(cfg.Nats)
 
 	redis := status.NewRedisStatus(r)
 

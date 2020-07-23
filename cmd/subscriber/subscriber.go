@@ -49,6 +49,7 @@ func Subscribe(nc *nats.Conn, cfg config.Nats, r status.RedisStatus) {
 	select {}
 }
 
+//nolint: bodyclose
 func worker(ch chan model.URL, r status.RedisStatus)  {
 	for u := range ch {
 		resp, err := http.Get(u.URL)

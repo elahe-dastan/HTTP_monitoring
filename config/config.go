@@ -37,7 +37,7 @@ type Redis struct {
 }
 
 type Nats struct {
-	Host string `mapstructure:"host"`
+	Host  string `mapstructure:"host"`
 	Topic string `mapstructure:"topic"`
 	Queue string `mapstructure:"queue"`
 }
