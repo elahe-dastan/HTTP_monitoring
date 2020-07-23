@@ -7,13 +7,14 @@ import (
 	"github.com/elahe-dastan/HTTP_monitoring/service"
 	"github.com/elahe-dastan/HTTP_monitoring/store"
 	"github.com/elahe-dastan/HTTP_monitoring/store/status"
+	"github.com/nats-io/go-nats"
 	"gorm.io/gorm"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/spf13/cobra"
 )
 
-func Register(root *cobra.Command, d *gorm.DB, jwt config.JWT, r redis.Conn, threshold int) {
+func Register(root *cobra.Command, d *gorm.DB, jwt config.JWT, r redis.Conn, threshold int, n *nats.Conn, natsConfig config.Nats) {
 	c := cobra.Command{
 		Use:   "server",
 		Short: "Run server to serve the requests",
@@ -35,8 +36,9 @@ func Register(root *cobra.Command, d *gorm.DB, jwt config.JWT, r redis.Conn, thr
 				Duration:  du,
 				Redis:     status.NewRedisStatus(r),
 				Threshold: threshold,
+				Nats:      n,
 			}
-			go s.Run()
+			go s.Run(natsConfig)
 			api.Run()
 		},
 	}

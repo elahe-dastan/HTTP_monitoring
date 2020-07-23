@@ -3,12 +3,13 @@ package service
 import (
 	"fmt"
 	"log"
-	"net/http"
 	"time"
 
+	"github.com/elahe-dastan/HTTP_monitoring/config"
 	"github.com/elahe-dastan/HTTP_monitoring/model"
 	"github.com/elahe-dastan/HTTP_monitoring/store"
 	"github.com/elahe-dastan/HTTP_monitoring/store/status"
+	"github.com/nats-io/go-nats"
 )
 
 type Server struct {
@@ -17,9 +18,10 @@ type Server struct {
 	Duration  int
 	Redis     status.RedisStatus
 	Threshold int
+	Nats      *nats.Conn
 }
 
-func (s *Server) Run() {
+func (s *Server) Run(cfg config.Nats) {
 	ticker := time.NewTicker(time.Duration(s.Duration) * time.Minute)
 	counter := 0
 
@@ -49,18 +51,19 @@ func (s *Server) Run() {
 				continue
 			}
 
-			//nolint: noctx
-			resp, err := http.Get(u.URL)
-			if err != nil {
-				fmt.Println(err)
-			}
-
-			var st model.Status
-			st.URLID = u.ID
-			st.Clock = time.Now()
-			st.StatusCode = resp.StatusCode
-
-			s.Redis.Insert(st)
+			s.Publish(u, cfg)
 		}
+	}
+}
+
+func (s *Server) Publish(u model.URL, c config.Nats) {
+	ec, err := nats.NewEncodedConn(s.Nats, nats.GOB_ENCODER)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = ec.Publish(c.Topic, u)
+	if err != nil {
+		log.Fatal(err)
 	}
 }

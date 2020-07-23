@@ -33,7 +33,7 @@ func Execute() {
 	n := load_balancer.Conn(cfg.Nats)
 
 	migrate.Register(rootCmd, d)
-	server.Register(rootCmd, d, cfg.JWT, r, cfg.Redis.Threshold)
+	server.Register(rootCmd, d, cfg.JWT, r, cfg.Redis.Threshold, n, cfg.Nats)
 	subscriber.Register(rootCmd, n, cfg.Nats, r)
 
 	if err := rootCmd.Execute(); err != nil {
