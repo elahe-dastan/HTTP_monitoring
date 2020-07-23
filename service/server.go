@@ -47,6 +47,7 @@ func (s *Server) Run(cfg config.Nats) {
 
 		//nolint: bodyclose
 		for _, u := range urls {
+			fmt.Println(counter)
 			if counter%u.Period != 0 {
 				continue
 			}

@@ -63,6 +63,7 @@ func worker(ch chan model.URL, r status.RedisStatus)  {
 		st.Clock = time.Now()
 		st.StatusCode = resp.StatusCode
 
+		fmt.Println("test")
 		r.Insert(st)
 	}
 }
