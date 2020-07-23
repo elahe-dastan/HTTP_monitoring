@@ -14,6 +14,7 @@ type RedisStatus struct {
 	Counter int
 }
 
+//nolint: gofumpt
 func NewRedisStatus(r redis.Conn) RedisStatus {
 	return RedisStatus{Redis: r,
 		Counter: 0}

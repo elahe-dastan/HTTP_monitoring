@@ -6,6 +6,7 @@ import (
 	"github.com/elahe-dastan/HTTP_monitoring/model"
 )
 
+//nolint: gofumpt
 var ErrDuplicateEmail = errors.New("this email exists")
 var ErrWrongPass = errors.New("password is not correct")
 var ErrNotFound = errors.New("this user doesn't exist in the database")

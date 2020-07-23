@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
+//nolint: gofumpt
 var ErrNotFound = errors.New("this user doesn't exist in the database")
 var ErrWrongPass = errors.New("password is not correct")
 
