@@ -36,9 +36,10 @@ func Register(root *cobra.Command, d *gorm.DB, jwt config.JWT, r redis.Conn, thr
 				Duration:  du,
 				Redis:     status.NewRedisStatus(r),
 				Threshold: threshold,
-				Nats:      n,
+				NatsConn:  n,
+				NatsCfg:   natsConfig,
 			}
-			go s.Run(natsConfig)
+			go s.Run()
 			api.Run()
 		},
 	}

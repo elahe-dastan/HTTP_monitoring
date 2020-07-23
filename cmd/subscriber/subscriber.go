@@ -9,17 +9,15 @@ import (
 	"github.com/elahe-dastan/HTTP_monitoring/config"
 	"github.com/elahe-dastan/HTTP_monitoring/model"
 	"github.com/elahe-dastan/HTTP_monitoring/store/status"
-	"github.com/gomodule/redigo/redis"
 	"github.com/nats-io/go-nats"
 	"github.com/spf13/cobra"
 )
 
-func Register(root *cobra.Command, n *nats.Conn, cfg config.Nats, r redis.Conn) {
+func Register(root *cobra.Command, n *nats.Conn, cfg config.Nats, r status.RedisStatus) {
 	c := cobra.Command{
 		Use: "subscribe",
 		Run: func(cmd *cobra.Command, args []string) {
-		    redis := status.NewRedisStatus(r)
-			Subscribe(n, cfg, redis)
+			Subscribe(n, cfg, r)
 		},
 	}
 
@@ -62,8 +60,7 @@ func worker(ch chan model.URL, r status.RedisStatus)  {
 		st.URLID = u.ID
 		st.Clock = time.Now()
 		st.StatusCode = resp.StatusCode
-
-		fmt.Println("test")
+		
 		r.Insert(st)
 	}
 }

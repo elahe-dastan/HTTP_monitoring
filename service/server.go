@@ -18,10 +18,11 @@ type Server struct {
 	Duration  int
 	Redis     status.RedisStatus
 	Threshold int
-	Nats      *nats.Conn
+	NatsConn  *nats.Conn
+	NatsCfg   config.Nats
 }
 
-func (s *Server) Run(cfg config.Nats) {
+func (s *Server) Run() {
 	ticker := time.NewTicker(time.Duration(s.Duration) * time.Minute)
 	counter := 0
 
@@ -52,18 +53,18 @@ func (s *Server) Run(cfg config.Nats) {
 				continue
 			}
 
-			s.Publish(u, cfg)
+			s.Publish(u)
 		}
 	}
 }
 
-func (s *Server) Publish(u model.URL, c config.Nats) {
-	ec, err := nats.NewEncodedConn(s.Nats, nats.GOB_ENCODER)
+func (s *Server) Publish(u model.URL) {
+	ec, err := nats.NewEncodedConn(s.NatsConn, nats.GOB_ENCODER)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = ec.Publish(c.Topic, u)
+	err = ec.Publish(s.NatsCfg.Topic, u)
 	if err != nil {
 		log.Fatal(err)
 	}
