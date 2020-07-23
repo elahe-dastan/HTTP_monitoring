@@ -33,9 +33,11 @@ func Execute() {
 	r := memory.New(cfg.Redis)
 	n := load_balancer.New(cfg.Nats)
 
+	redis := status.NewRedisStatus(r)
+
 	migrate.Register(rootCmd, d)
-	server.Register(rootCmd, d, cfg.JWT, r, cfg.Redis.Threshold, n, cfg.Nats)
-	subscriber.Register(rootCmd, n, cfg.Nats, status.NewRedisStatus(r))
+	server.Register(rootCmd, d, cfg.JWT, redis, cfg.Redis.Threshold, n, cfg.Nats)
+	subscriber.Register(rootCmd, n, cfg.Nats, redis)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)

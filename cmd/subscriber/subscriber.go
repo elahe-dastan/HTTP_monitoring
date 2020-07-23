@@ -60,7 +60,7 @@ func worker(ch chan model.URL, r status.RedisStatus)  {
 		st.URLID = u.ID
 		st.Clock = time.Now()
 		st.StatusCode = resp.StatusCode
-		
+
 		r.Insert(st)
 	}
 }

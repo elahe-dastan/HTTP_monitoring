@@ -10,11 +10,10 @@ import (
 	"github.com/nats-io/go-nats"
 	"gorm.io/gorm"
 
-	"github.com/gomodule/redigo/redis"
 	"github.com/spf13/cobra"
 )
 
-func Register(root *cobra.Command, d *gorm.DB, jwt config.JWT, r redis.Conn, threshold int, n *nats.Conn, natsConfig config.Nats) {
+func Register(root *cobra.Command, d *gorm.DB, jwt config.JWT, r status.RedisStatus, threshold int, n *nats.Conn, natsConfig config.Nats) {
 	c := cobra.Command{
 		Use:   "server",
 		Short: "Run server to serve the requests",
@@ -34,7 +33,7 @@ func Register(root *cobra.Command, d *gorm.DB, jwt config.JWT, r redis.Conn, thr
 				URL:       URL,
 				Status:    status.NewSQLStatus(d),
 				Duration:  du,
-				Redis:     status.NewRedisStatus(r),
+				Redis:     r,
 				Threshold: threshold,
 				NatsConn:  n,
 				NatsCfg:   natsConfig,
