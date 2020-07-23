@@ -17,4 +17,6 @@ jwt:
   exp: 15
 nats:
   host: nats://localhost:4221
+  topic: monitor
+  queue: monitors
 `
