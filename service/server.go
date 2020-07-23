@@ -47,7 +47,6 @@ func (s *Server) Run() {
 		}
 
 		for _, u := range urls {
-			fmt.Println(counter)
 			if counter%u.Period != 0 {
 				continue
 			}

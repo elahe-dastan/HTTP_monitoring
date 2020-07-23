@@ -37,12 +37,12 @@ func Subscribe(nc *nats.Conn, cfg config.Nats, r status.RedisStatus) {
 	ch := make(chan model.URL)
 
 	if _, err := c.QueueSubscribe(cfg.Topic, cfg.Queue, func(u model.URL) {
-		ch<- u
+		ch <- u
 	}); err != nil {
 		log.Fatal(err)
 	}
 
-	for i := 0 ; i < 3; i++ {
+	for i := 0; i < 3; i++ {
 		go worker(ch, r)
 	}
 
@@ -50,7 +50,7 @@ func Subscribe(nc *nats.Conn, cfg config.Nats, r status.RedisStatus) {
 }
 
 //nolint: bodyclose
-func worker(ch chan model.URL, r status.RedisStatus)  {
+func worker(ch chan model.URL, r status.RedisStatus) {
 	for u := range ch {
 		resp, err := http.Get(u.URL)
 		if err != nil {

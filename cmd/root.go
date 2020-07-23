@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/elahe-dastan/HTTP_monitoring/balancer"
 	"github.com/elahe-dastan/HTTP_monitoring/cmd/migrate"
 	"github.com/elahe-dastan/HTTP_monitoring/cmd/server"
 	"github.com/elahe-dastan/HTTP_monitoring/cmd/subscriber"
 	"github.com/elahe-dastan/HTTP_monitoring/config"
 	"github.com/elahe-dastan/HTTP_monitoring/db"
-	"github.com/elahe-dastan/HTTP_monitoring/balancer"
 	"github.com/elahe-dastan/HTTP_monitoring/memory"
 	"github.com/elahe-dastan/HTTP_monitoring/store/status"
 
