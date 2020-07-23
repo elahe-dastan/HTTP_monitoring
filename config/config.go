@@ -13,6 +13,7 @@ type Config struct {
 	Database Database `mapstructure:"db"`
 	Redis    Redis    `mapstructure:"redis"`
 	JWT      JWT      `mapstructure:"jwt"`
+	Nats     Nats     `mapstructure:"nats"`
 }
 
 type JWT struct {
@@ -33,6 +34,10 @@ type Redis struct {
 	Host      string `mapstructure:"host"`
 	Port      string `mapstructure:"port"`
 	Threshold int    `mapstructure:"threshold"`
+}
+
+type Nats struct {
+	Host string `mapstructure:"host"`
 }
 
 func Read() Config {

@@ -15,4 +15,6 @@ redis:
 jwt:
   secret: jdnfksdmfks
   exp: 15
+nats:
+  host: nats://localhost:4221
 `
