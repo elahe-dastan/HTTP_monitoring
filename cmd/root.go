@@ -34,7 +34,7 @@ func Execute() {
 
 	migrate.Register(rootCmd, d)
 	server.Register(rootCmd, d, cfg.JWT, r, cfg.Redis.Threshold)
-	subscriber.Register(rootCmd, n)
+	subscriber.Register(rootCmd, n, cfg.Nats, r)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
