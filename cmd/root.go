@@ -6,8 +6,10 @@ import (
 
 	"github.com/elahe-dastan/HTTP_monitoring/cmd/migrate"
 	"github.com/elahe-dastan/HTTP_monitoring/cmd/server"
+	"github.com/elahe-dastan/HTTP_monitoring/cmd/subscriber"
 	"github.com/elahe-dastan/HTTP_monitoring/config"
 	"github.com/elahe-dastan/HTTP_monitoring/db"
+	"github.com/elahe-dastan/HTTP_monitoring/load_balancer"
 	"github.com/elahe-dastan/HTTP_monitoring/memory"
 
 	"github.com/spf13/cobra"
@@ -28,9 +30,11 @@ func Execute() {
 	cfg := config.Read()
 	d := db.New(cfg.Database)
 	r := memory.New(cfg.Redis)
+	n := load_balancer.Conn(cfg.Nats)
 
 	migrate.Register(rootCmd, d)
 	server.Register(rootCmd, d, cfg.JWT, r, cfg.Redis.Threshold)
+	subscriber.Register(rootCmd, n)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
