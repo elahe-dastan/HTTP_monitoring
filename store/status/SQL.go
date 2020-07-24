@@ -15,12 +15,6 @@ type SQLStatus struct {
 	DB *gorm.DB
 }
 
-type redisStatus struct {
-	URLID      int    `redis:"url"`
-	Clock      string `redis:"clock"`
-	StatusCode int    `redis:"status"`
-}
-
 func NewSQLStatus(d *gorm.DB) SQLStatus {
 	return SQLStatus{DB: d}
 }

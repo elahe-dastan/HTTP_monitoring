@@ -14,6 +14,12 @@ type RedisStatus struct {
 	Counter int
 }
 
+type redisStatus struct {
+	URLID      int    `redis:"url"`
+	Clock      string `redis:"clock"`
+	StatusCode int    `redis:"status"`
+}
+
 //nolint: gofumpt
 func NewRedisStatus(r redis.Conn) RedisStatus {
 	return RedisStatus{Redis: r,
