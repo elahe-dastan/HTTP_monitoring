@@ -1,6 +1,7 @@
 package subscriber
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -52,7 +53,16 @@ func Subscribe(nc *nats.Conn, cfg config.Nats, r status.RedisStatus) {
 //nolint: bodyclose
 func worker(ch chan model.URL, r status.RedisStatus) {
 	for u := range ch {
-		resp, err := http.Get(u.URL)
+		req, err := http.NewRequest(http.MethodGet, u.URL, nil)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		ctx, _ := context.WithTimeout(req.Context(), time.Second)
+
+		req = req.WithContext(ctx)
+		client := http.DefaultClient
+		resp, err := client.Do(req)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -60,7 +70,12 @@ func worker(ch chan model.URL, r status.RedisStatus) {
 		var st model.Status
 		st.URLID = u.ID
 		st.Clock = time.Now()
-		st.StatusCode = resp.StatusCode
+		if err != nil{
+			st.StatusCode = http.StatusRequestTimeout
+		}else {
+			st.StatusCode = resp.StatusCode
+		}
+
 
 		r.Insert(st)
 	}
