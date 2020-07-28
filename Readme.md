@@ -1,4 +1,5 @@
 [![Build Status](https://cloud.drone.io/api/badges/elahe-dastan/HTTP_monitoring/status.svg)](https://cloud.drone.io/elahe-dastan/HTTP_monitoring)
+[![Coverage Status](https://coveralls.io/repos/github/elahe-dastan/HTTP_monitoring/badge.svg?branch=master)](https://coveralls.io/github/elahe-dastan/HTTP_monitoring?branch=master)
 
 # HTTP endpoints monitoring service
 It's a service with Golang programming language to monitor HTTP endpoints so that in some configurable periods<br/>
